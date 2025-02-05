@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to Parcel Pro</title>
+    <link rel="stylesheet" href="css/signin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-card">
+            <div class="brand">
+                <h1>Parcel Pro</h1>
+                <p class="subtitle">Welcome back</p>
+            </div>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="userId">User ID</label>
+                    <input type="text" id="userId" name="userId" minlength="5" maxlength="20" required>
+                    <span id="userIdError" class="error-message"></span>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" minlength="1" maxlength="30" required>
+                    <span id="passwordError" class="error-message"></span>
+                </div>
+
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+
+        <div class="signup-prompt">
+            <p>Don't have a Parcel Pro account?</p>
+            <button class="create-account-btn" onclick="window.location.href='signup.html'">Create Account</button>
+        </div>
+    </div>
+    <script src="js/signin.js"></script>
+</body>
+
+</html>
