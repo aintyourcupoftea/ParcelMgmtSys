@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pickup Scheduling</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10Px;
+            padding: 0;
+             background-color: rgb(100, 126, 112);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 600px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            text-align: left;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: green;
+            color: white;
+            width: 100%;
+        }
+        button:hover {
+            background-color: darkgreen;
+        }
+        .confirmation {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Pickup Scheduling</h2>
+        
+        <label for="booking-id">Enter Booking ID:</label>
+        <input type="text" id="booking-id" maxlength="12" placeholder="Enter 12-digit Booking ID">
+        <button onclick="searchBooking()">Search</button>
+
+        <div class="error" id="error-message">Invalid Booking ID! Please enter a 12-digit number.</div>
+
+        <div id="pickup-form" style="display: none;">
+            <label for="pickup-date">Select Pickup Date:</label>
+            <input type="date" id="pickup-date" min="" required>
+
+            <label for="pickup-time">Select Pickup Time:</label>
+            <input type="time" id="pickup-time" required>
+
+            <button onclick="savePickupSchedule()">Save</button>
+        </div>
+
+        <div class="confirmation" id="confirmation-message">Pickup scheduled successfully!</div>
+    </div>
+
+    <script>
+        function searchBooking() {
+            let bookingId = document.getElementById("booking-id").value.trim();
+            let errorMessage = document.getElementById("error-message");
+            let pickupForm = document.getElementById("pickup-form");
+
+            if (bookingId.length !== 12 || isNaN(bookingId)) {
+                errorMessage.style.display = "block";
+                pickupForm.style.display = "none";
+                return;
+            }
+
+            errorMessage.style.display = "none";
+            pickupForm.style.display = "block";
+
+         
+            let today = new Date().toISOString().split("T")[0];
+            document.getElementById("pickup-date").setAttribute("min", today);
+        }
+
+        function savePickupSchedule() {
+            let pickupDate = document.getElementById("pickup-date").value;
+            let pickupTime = document.getElementById("pickup-time").value;
+            let confirmationMessage = document.getElementById("confirmation-message");
+
+            if (!pickupDate || !pickupTime) {
+                alert("Please select both pickup date and time.");
+                return;
+            }
+
+            confirmationMessage.style.display = "block";
+        }
+    </script>
+</body>
+</html>
