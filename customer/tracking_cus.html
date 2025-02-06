@@ -6,18 +6,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
     <link rel="stylesheet" href="../css/nav.css">
-    <link rel="stylesheet" href="../css/tracking.css">
+    <link rel="stylesheet" href="../css/tracking_cus.css">
 </head>
+
+
+
 
 <body>
 
     <nav class="navbar">
         <div class="navbar-content">
-            <div class="brand" onclick="window.location.href='/officer/dashboard.html'">
+            <div class="brand" onclick="window.location.href='/customer/dashboard.html'">
                 <h1>Parcel Pro</h1>
             </div>
             <div class="user-welcome">
-                <p>Welcome, <span id="username">Officer</span></p>
+                <p>Welcome, <span id="username">User</span></p>
                 <button class="signout-btn" onclick="location.href='../signin.html'">
                     <i class="material-icons-round">logout</i>
                     Sign Out
@@ -35,7 +38,7 @@
 
   <thead>
     <tr>
-       <th>Customer ID</th>
+       
        <th>Booking ID</th>
         <th>Status</th>
         <th>Last Updated</th>
@@ -44,8 +47,9 @@
 
 
 
-<tbody id="packageList">
-</tbody>
+   <tbody id="packageList">
+   </tbody>
+
 </table>
 </div>
 </body>

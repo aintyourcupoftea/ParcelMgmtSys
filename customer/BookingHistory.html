@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+           /* background-color: #f4f4f4;*/
+            background-color:activeborder;
+        }
+        .navbar {
+            background-color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: black;
+        }
+        .navbar .welcome {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .logout-btn {
+            background-color: red;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        .logout-btn:hover {
+            background-color: darkred;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background-color: activeborder;
+            color: white;
+        }
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            background-color: green;
+            color: white;
+        }
+        button:hover {
+            background-color: darkblue;
+        }
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        input, select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="welcome">Welcome, <span id="username">Customer123</span></div>
+        <button class="logout-btn" onclick="location.href='login.html'">Logout</button>
+    </div>
+
+    <div class="container">
+        <h2>Booking History</h2>
+
+        <div class="search-container">
+            <label>User ID:</label>
+            <input type="text" id="userId" placeholder="Enter User ID">
+          
+            <button onclick="searchBookings()">Search</button>
+        </div>
+
+        <table id="booking-table">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Booking Date</th>
+                    <th>Receiver Name</th>
+                    <th>Delivered Address</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <button onclick="prevPage()">Previous</button>
+            <button onclick="nextPage()">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let bookings = [
+    ]
+
+        let currentPage = 0;
+        const rowsPerPage = 3;
+
+        function displayBookings() {
+            let tableBody = document.querySelector("#booking-table tbody");
+            tableBody.innerHTML = "";
+            let start = currentPage * rowsPerPage;
+            let end = start + rowsPerPage;
+            let paginatedBookings = bookings.slice(start, end);
+
+            paginatedBookings.forEach(booking => {
+                let row = `<tr>
+                    <td>${booking.id}</td>
+                    <td>${booking.date}</td>
+                    <td>${booking.receiver}</td>
+                    <td>${booking.address}</td>
+                    <td>${booking.amount}</td>
+                    <td>${booking.status}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                displayBookings();
+            }
+        }
+
+        function nextPage() {
+            if ((currentPage + 1) * rowsPerPage < bookings.length) {
+                currentPage++;
+                displayBookings();
+            }
+        }
+
+        function searchBookings() {
+            let userId = document.getElementById("userId").value.trim();
+            let startDate = document.getElementById("startDate").value;
+            let endDate = document.getElementById("endDate").value;
+
+            let filteredBookings = bookings.filter(booking => {
+                let bookingDate = new Date(booking.date);
+                let start = startDate ? new Date(startDate) : new Date("2000-01-01");
+                let end = endDate ? new Date(endDate) : new Date();
+
+                return bookingDate >= start && bookingDate <= end;
+            });
+
+            let tableBody = document.querySelector("#booking-table tbody");
+            tableBody.innerHTML = "";
+            filteredBookings.forEach(booking => {
+                let row = `<tr>
+                    <td>${booking.id}</td>
+                    <td>${booking.date}</td>
+                    <td>${booking.receiver}</td>
+                    <td>${booking.address}</td>
+                    <td>${booking.amount}</td>
+                    <td>${booking.status}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+
+            if (filteredBookings.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="6">No bookings found.</td></tr>`;
+            }
+        }
+
+        window.onload = displayBookings;
+    </script>
+</body>
+</html>

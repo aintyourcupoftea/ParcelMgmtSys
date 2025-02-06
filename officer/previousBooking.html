@@ -14,7 +14,7 @@
 <body>
     <nav class="navbar">
         <div class="navbar-content">
-            <div class="brand" onclick="window.location.href='/customer/dashboard.html'">
+            <div class="brand" onclick="window.location.href='/officer/dashboard.html'">
                 <h1>Parcel Pro</h1>
             </div>
             <div class="user-welcome">
@@ -32,6 +32,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>Customer ID</th>
                     <th>Booking ID</th>
                     <th>Booking Date</th>
                     <th>Receiver Name</th>
@@ -50,12 +51,31 @@
         </div>
     </div>
 
-    <script src="/js/previousBooking.js">
+    <script src="">
         // Get username from localStorage or session and display it
         document.addEventListener('DOMContentLoaded', function () {
             const username = localStorage.getItem('username') || 'User';
             document.getElementById('username').textContent = username;
         });
+        let currentPage = 1;
+        function logout() {
+            alert("Logged out successfully");
+            window.location.href = "login.html";
+        }
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                loadBookings();
+            }
+        }
+        function nextPage() {
+            currentPage++;
+            loadBookings();
+        }
+        function loadBookings() {
+            document.getElementById("booking-data").innerHTML = `<tr><td>123</td><td>456</td><td>2025-02-05</td><td>John Doe</td><td>123 Street</td><td>$50</td><td>Delivered</td></tr>`;
+        }
+        document.addEventListener("DOMContentLoaded", loadBookings);
     </script>
 </body>
 

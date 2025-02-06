@@ -14,6 +14,6 @@ function nextPage() {
     loadBookings();
 }
 function loadBookings() {
-    document.getElementById("booking-data").innerHTML = `<tr><td>123</td><td>456</td><td>2025-02-05</td><td>John Doe</td><td>123 Street</td><td>$50</td><td>Delivered</td></tr>`;
+    document.getElementById("booking-data").innerHTML = `<tr><td>456</td><td>2025-02-05</td><td>John Doe</td><td>123 Street</td><td>$50</td><td>Delivered</td></tr>`;
 }
 document.addEventListener("DOMContentLoaded", loadBookings);
