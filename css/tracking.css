@@ -1,0 +1,51 @@
+body {
+    
+  
+}
+
+
+
+.navbar {
+    background: var(--card-background);
+    padding: 16px 32px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.container{
+    margin: 125px 50px 40px;
+    padding: 10px 32px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: white;
+}
+
+
+input[type="text"] {
+    width: 50%;
+    padding: 10px;
+    margin: 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color:#FFE2E2;
+    color: black;
+}

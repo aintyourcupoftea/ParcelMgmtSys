@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Parcel Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/previousBooking.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="brand" onclick="window.location.href='/customer/dashboard.html'">
+                <h1>Parcel Pro</h1>
+            </div>
+            <div class="user-welcome">
+                <p>Welcome, <span id="username">John</span></p>
+                <button class="signout-btn" onclick="location.href='../signin.html'">
+                    <i class="material-icons-round">logout</i>
+                    Sign Out
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Customer Booking History</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer ID</th>
+                    <th>Booking ID</th>
+                    <th>Booking Date</th>
+                    <th>Receiver Name</th>
+                    <th>Delivered Address</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="booking-data">
+                <!-- Data will be inserted dynamically -->
+            </tbody>
+        </table>
+        <div class="pagination">
+            <button id="prev" class="nav-button" onclick="prevPage()">Previous</button>
+            <button id="next" class="nav-button" onclick="nextPage()">Next</button>
+        </div>
+    </div>
+
+    <script src="/js/previousBooking.js">
+        // Get username from localStorage or session and display it
+        document.addEventListener('DOMContentLoaded', function () {
+            const username = localStorage.getItem('username') || 'User';
+            document.getElementById('username').textContent = username;
+        });
+    </script>
+</body>
+
+</html>
