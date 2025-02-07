@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcel Management System - Customer</title>
+    <link rel="stylesheet" href="Home.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Parcel Management System</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Booking Service</a></li>
+                    <li><a href="#">Tracking</a></li>
+                    <li><a href="#">Previous Booking</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </nav>
+            <div class="options">
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙</button>
+                <a href="#">Help</a>
+                <a href="#">Sign In</a>
+                <span class="user-greeting">Welcome, Customer</span>
+            </div>
+        </div>
+    </header>
+
+    <section id="features">
+        <div class="container">
+            <h2>Featured Services</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <span class="feature-tag">Service</span>
+                    <h3>Real-time Tracking</h3>
+                    <p>Track your parcels in real time with live updates.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-tag">Security</span>
+                    <h3>Secure Deliveries</h3>
+                    <p>Ensure safety and security for every package.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-tag">Support</span>
+                    <h3>24/7 Customer Support</h3>
+                    <p>Get assistance anytime with our dedicated support team.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <footer>
+        <p>&copy; 2025 Parcel Management System.</p>
+    </footer>
+    <script>
+        function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+    document.getElementById("features").classList.toggle("dark-mode");
+}
+
+    </script>
+</body>
+</html>
