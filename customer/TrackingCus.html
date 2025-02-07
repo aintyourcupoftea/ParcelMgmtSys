@@ -1,0 +1,127 @@
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/tracking_cus.css">
+</head>
+
+
+
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="brand" onclick="window.location.href='/customer/Dashboard.html'">
+                <h1>Parcel Pro</h1>
+            </div>
+            <div class="user-welcome">
+                <p>Welcome, <span id="username">User</span></p>
+                <button class="signout-btn" onclick="location.href='../SignIn.html'">
+                    <i class="material-icons-round">logout</i>
+                    Sign Out
+                </button>
+            </div>
+        </div>
+    </nav>
+
+
+<div class="container">
+<h1>Package Tracking Zone</h1>
+<input type="text" id="search" placeholder="Enter Booking Id &#x1F50E;&#xFE0E;"/>
+
+<table>
+
+  <thead>
+    <tr>
+       
+       <th>Booking ID</th>
+        <th>Status</th>
+        <th>Last Updated</th>
+     </tr>
+  </thead>
+
+
+
+   <tbody id="packageList">
+
+    <tr>
+        <td>300056234567</td>
+        <td>Shipped</td>
+        <td>23-04-2025</td>
+   </tr>
+
+    <tr>
+        <td>222222444444</td>
+        <td>In Transit</td>
+        <td>26-06-2024</td>
+    </tr>
+
+     <tr>
+        <td>111111222222</td>
+        <td>Delivered</td>
+        <td>06-01-2023</td>
+    </tr>
+
+      <tr>
+        <td>115678765432</td>
+        <td>Shipped</td>
+        <td>23-04-2022</td>
+   </tr>
+
+    <tr>
+        <td>245678765432</td>
+        <td>In Transit</td>
+        <td>23-06-2024</td>
+    </tr>
+
+     <tr>
+        <td>345678765432</td>
+        <td>Delivered</td>
+        <td>16-01-2023</td>
+    </tr>
+      <tr>
+        <td>123000765432</td>
+        <td>Shipped</td>
+        <td>23-04-2025</td>
+   </tr>
+
+    <tr>
+        <td>12347854234</td>
+        <td>In Transit</td>
+        <td>26-06-2024</td>
+    </tr>
+
+     <tr>
+        <td>987654456789</td>
+        <td>Delivered</td>
+        <td>06-01-2023</td>
+    </tr>
+
+      <tr>
+        <td>300012345678</td>
+        <td>Shipped</td>
+        <td>23-04-2022</td>
+   </tr>
+
+    <tr>
+        <td>234567765432</td>
+        <td>In Transit</td>
+        <td>23-06-2024</td>
+    </tr>
+
+     <tr>
+        <td>123456123456</td>
+        <td>Delivered</td>
+        <td>16-01-2023</td>
+    </tr>
+   </tbody>
+
+</table>
+</div>
+</body>
+</html>

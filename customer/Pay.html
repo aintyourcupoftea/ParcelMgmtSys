@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            background-color: #007bff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .logout-btn {
+            background-color: red;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+        .logout-btn:hover {
+            background-color: darkred;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 400px;
+            margin: 50px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[readonly] {
+            background-color: #eee;
+            cursor: not-allowed;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .pay-btn {
+            background-color: green;
+            color: white;
+        }
+        .pay-btn:hover {
+            background-color: darkgreen;
+        }
+        .back-btn {
+            background-color: gray;
+            color: white;
+        }
+        .back-btn:hover {
+            background-color: darkgray;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <span>Welcome, <span id="username">Customer123</span></span>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+ 
+    <div class="container">
+        <h2>Payment Details</h2>
+        <form id="payment-form">
+            <label for="bill-amount">Bill Amount (£):</label>
+            <input type="text" id="bill-amount" value="20.00" readonly>
+
+            <label for="payment-mode">Mode of Payment:</label>
+            <select id="payment-mode" required>
+                <option value="">Select...</option>
+                <option value="debit">Debit Card</option>
+                <option value="credit">Credit Card</option>
+            </select>
+
+            <div class="btn-container">
+                <button type="button" class="pay-btn" onclick="proceedToCardDetails()">Pay Now</button>
+                <button type="button" class="back-btn" onclick="goBack()">Back to Home</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function logout() {
+            alert("Logged out successfully!");
+            window.location.href = "login.html";
+        }
+
+        function proceedToCardDetails() {
+            const paymentMode = document.getElementById("payment-mode").value;
+            if (!paymentMode) {
+                alert("Please select a payment mode.");
+                return;
+            }
+            window.location.href = "card-details.html";
+        }
+
+        function goBack() {
+            window.location.href = "booking-service.html";
+        }
+    </script>
+</body>
+</html>

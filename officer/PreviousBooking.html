@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Parcel Pro (Officer)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    <link rel="stylesheet" href="../css/nav.css">
+    <!-- <link rel="stylesheet" href="../css/previousBooking.css"> -->
+    <style> 
+        .container {
+            max-width: 1200px;
+            background: white;
+            box-shadow: 0 20px 20px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            border-radius: 10px;
+            text-align:center;
+            margin: 110px auto 40px;
+            padding: 10px 32px;
+        }
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .search-bar input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .search-bar button {
+            background-color: #6a5acd;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .search-bar button:hover {
+            background-color: #7d6be6;
+        }
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            min-width: 700px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #6a5acd;
+            color: white;
+        }
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .nav-button {
+            background-color: #6a5acd;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: #7d6be6;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="brand" onclick="window.location.href='/officer/Dashboard.html'">
+                <h1>Parcel Pro</h1>
+            </div>
+            <div class="user-welcome">
+                <p>Welcome, <span id="username">Officer</span></p>
+                <button class="signout-btn" onclick="location.href='../SignIn.html'">
+                    <i class="material-icons-round">logout</i>
+                    Sign Out
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Customer Booking History</h2>
+        
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" id="searchCustomerId" placeholder="Enter Customer ID">
+            <input type="date" id="startDate">
+            <input type="date" id="endDate">
+            <button onclick="searchBookings()">Search</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer ID</th>
+                        <th>Booking ID</th>
+                        <th>Booking Date</th>
+                        <th>Receiver Name</th>
+                        <th>Delivered Address</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="booking-data">
+                    <!-- Data will be inserted dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Get username from localStorage or session and display it
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     const username = localStorage.getItem('username') || 'User';
+        //     document.getElementById('username').textContent = username;
+        // });
+        let currentPage = 1;
+        function logout() {
+            alert("Logged out successfully");
+            window.location.href = "login.html";
+        }
+        function loadBookings() {
+            document.getElementById("booking-data").innerHTML = `<tr><td>123</td><td>456</td><td>2025-02-05</td><td>John Doe</td><td>123 Street</td><td>$50</td><td>Delivered</td></tr>`;
+        }
+        document.addEventListener("DOMContentLoaded", loadBookings);
+    </script>
+</body>
+
+</html>

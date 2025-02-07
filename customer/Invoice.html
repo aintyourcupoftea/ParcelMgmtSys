@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 600px;
+            margin: 50px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .invoice-details {
+            margin-top: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        .info {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: blue;
+            color: white;
+        }
+        button:hover {
+            background-color: darkblue;
+        }
+        @media print {
+            button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Invoice</h2>
+        <div class="invoice-details">
+            <label>Receiver Name:</label>
+            <div class="info" id="receiver-name">John Doe</div>
+
+            <label>Receiver Address:</label>
+            <div class="info" id="receiver-address">123 Main Street, London, UK</div>
+
+            <label>Receiver Pin:</label>
+            <div class="info" id="receiver-pin">W1A 1AA</div>
+
+            <label>Receiver Mobile:</label>
+            <div class="info" id="receiver-mobile">+44 123 456 789</div>
+
+            <label>Parcel Weight (g):</label>
+            <div class="info" id="parcel-weight">500</div>
+
+            <label>Parcel Contents Description:</label>
+            <div class="info" id="parcel-content">Electronics</div>
+
+            <label>Parcel Delivery Type:</label>
+            <div class="info" id="parcel-delivery">Express</div>
+
+            <label>Parcel Packing Preference:</label>
+            <div class="info" id="parcel-packaging">Eco-friendly Packaging</div>
+
+            <label>Parcel Pickup Time:</label>
+            <div class="info" id="parcel-pickup">2025-02-06 10:00 AM</div>
+
+            <label>Parcel Dropoff Time:</label>
+            <div class="info" id="parcel-dropoff">2025-02-07 05:00 PM</div>
+
+            <label>Parcel Service Cost (£):</label>
+            <div class="info" id="parcel-cost">20.00</div>
+
+            <label>Parcel Payment Time:</label>
+            <div class="info" id="parcel-payment-time">2025-02-05 02:15 PM</div>
+        </div>
+
+        <div class="btn-container">
+            <button onclick="printInvoice()">Print Invoice</button>
+        </div>
+    </div>
+
+    <script>
+        function printInvoice() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
