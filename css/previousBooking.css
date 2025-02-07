@@ -15,14 +15,18 @@ th {
     margin-top: 20px;
 }
 .container {
-    width: 90%;
+    max-width: 1200px;
     background: white;
     box-shadow: 0 20px 20px rgba(0, 0, 0, 0.1);
     flex: 1;
     border-radius: 10px;
     text-align:center;
-    margin: 90px auto 40px;
+    margin: 110px auto 40px;
     padding: 10px 32px;
+}
+.officer-search-container{
+    display:flex;
+
 }
 .nav-button {
     background-color: #007AFF;

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Service</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+           /* background-color: #f4f4f4;*/
+           background-color:white;
+        }
+        .container {
+            background: silver;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[readonly] {
+            background-color: #eee;
+            cursor: not-allowed;
+        }
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 0px;
+        }
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        input[type="submit"], input[type="reset"] {
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: green;
+            color: white;
+        }
+        input[type="reset"] {
+            background-color: red;
+            color: white;
+        }
+        input[type="submit"]:hover {
+            background-color: darkgreen;
+        }
+        input[type="reset"]:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Book a Parcel Service</h2>
+        <form action=BookingService" method="post">
+            
+            
+            <fieldset>
+                <legend>Sender Information</legend>
+                <label>Name:</label>
+                <input type="text" value=".." name="name" readonly>
+
+                <label>Address:</label>
+                <textarea readonly>..</textarea>
+
+                <label>Contact Details:</label>
+                <input type="text" value=".." readonly>
+            </fieldset>
+
+    
+            <fieldset>
+                <legend>Receiver Information</legend>
+                <label for="receiver-name">Name:</label>
+                <input type="text" id="receiver-name" name="receiver-name" required minlength="2" maxlength="50">
+
+                <label for="receiver-address">Address:</label>
+                <textarea id="receiver-address" name="receiver-address" required minlength="10"></textarea>
+
+                <label for="pin-code">Pin Code:</label>
+                <input type="text" id="pin-code" name="pin-code" required pattern="\d{6}" title="Enter a valid 6-digit Pin Code">
+
+                <label for="receiver-contact">Contact Details:</label>
+                <input type="tel" id="receiver-contact" name="receiver-contact" required pattern="\d{10}" title="Enter a valid 10-digit phone number">
+            </fieldset>
+
+        
+            <fieldset>
+                <legend>Parcel Details</legend>
+                <label for="size-weight">Size & Weight (kg):</label>
+                <input type="text" id="size-weight" name="size-weight" required pattern="\d+(\.\d{1,2})?" title="Enter a valid number">
+
+                <label for="contents">Contents Description:</label>
+                <textarea id="contents" name="contents" required minlength="5"></textarea>
+            </fieldset>
+
+            <fieldset>
+                <legend>Shipping Options</legend>
+                <label>Delivery Speed:</label>
+                <select name="delivery-speed" required>
+                    <option value="">Select...</option>
+                    <option value="standard">Standard</option>
+                    <option value="express">Express</option>
+                </select>
+
+                <label>Packaging Preferences:</label>
+                <div class="radio-group">
+                    <input type="radio" id="standard" name="packaging" value="standard" required>
+                    <label for="standard">Standard Packaging</label>
+                    
+                    <input type="radio" id="custom" name="packaging" value="custom">
+                    <label for="custom">Custom Packaging</label>
+                    
+                    <input type="radio" id="eco" name="packaging" value="eco">
+                    <label for="eco">Eco-friendly Packaging</label>
+
+                    <input type="radio" id="fragile" name="packaging" value="fragile">
+                    <label for="fragile">Fragile Item Handling</label>
+                </div>
+            </fieldset>
+
+        
+            <fieldset>
+                <legend>Date & Time Selection</legend>
+                <label for="date">Preferred Date:</label>
+                <input type="date" id="date" name="date" required>
+
+                <label for="time">Preferred Time:</label>
+                <input type="time" id="time" name="time" required>
+            </fieldset>
+
+           
+            <fieldset>
+                <legend>Service Cost & Payment</legend>
+                <label for="cost">Total Cost :</label>
+                <input type="text" id="cost" name="cost" value="20.00" readonly>
+
+                <label>Payment Method:</label>
+                <select name="payment-method" required>
+                    <option value="">Select...</option>
+                    <option value="credit-card">Credit Card</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="bank-transfer">Bank Transfer</option>
+                </select>
+            </fieldset>
+
+        
+            <fieldset>
+                <legend>Additional Services</legend>
+                <input type="checkbox" id="insurance" name="insurance">
+                <label for="insurance">Insurance</label>
+
+                <input type="checkbox" id="tracking" name="tracking">
+                <label for="tracking">Tracking Services</label>
+            </fieldset>
+
+            <div class="btn-container">
+                <input type="submit" value="Book Now">
+                <input type="reset" value="Reset">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
