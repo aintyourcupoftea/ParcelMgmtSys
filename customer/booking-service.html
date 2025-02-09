@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Service - Parcel Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/booking-pages.css">
+    <style>
+        .form-section {
+            background: white;
+            padding: 24px;
+            border-radius: var(--border-radius);
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--accent-color);
+            font-size: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .radio-option {
+            position: relative;
+            border: 1.5px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .radio-option:hover {
+            border-color: var(--accent-color);
+            background: var(--hover-color);
+        }
+
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .radio-option label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .radio-option i {
+            color: var(--accent-color);
+        }
+
+        .radio-option.selected {
+            border-color: var(--accent-color);
+            background: var(--hover-color);
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 32px;
+            margin-top: 16px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+        }
+
+        .cost-display {
+            background: var(--hover-color);
+            padding: 16px;
+            border-radius: 12px;
+            margin-top: 16px;
+            text-align: right;
+        }
+
+        .cost-display .total-cost {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkbox-group {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="brand">
+                <a href="dashboard.html" style="text-decoration: none; color: inherit;">
+                    <h1>Parcel Pro</h1>
+                    <span class="dashboard-type">Customer Dashboard</span>
+                </a>
+            </div>
+            <div class="user-welcome">
+                <div class="user-info">
+                    <p>Welcome back,</p>
+                    <span id="username" class="username">John</span>
+                </div>
+                <button class="signout-btn" onclick="location.href='../signin.html'">
+                    <i class="material-icons-round">logout</i>
+                    <span>Sign Out</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <h2>Book a Parcel Service</h2>
+            <p class="subtitle">Schedule your parcel pickup or delivery</p>
+        </header>
+
+        <form id="bookingForm" onsubmit="return validateForm()">
+            <!-- Sender Information -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <i class="material-icons-round">person</i>
+                    Sender Information
+                </h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>Name</label>
+                        <input type="text" value="John Doe" readonly>
+                    </div>
+                    <div class="input-group">
+                        <label>Contact Details</label>
+                        <input type="text" value="+1 234 567 8900" readonly>
+                    </div>
+                    <div class="input-group">
+                        <label>Address</label>
+                        <textarea readonly>123 Main St, Apt 4B, New York, NY 10001</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Receiver Information -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <i class="material-icons-round">person_add</i>
+                    Receiver Information
+                </h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="receiver-name">Full Name</label>
+                        <input type="text" id="receiver-name" required minlength="2" maxlength="50"
+                            placeholder="Enter receiver's name">
+                    </div>
+                    <div class="input-group">
+                        <label for="receiver-contact">Contact Number</label>
+                        <input type="tel" id="receiver-contact" required pattern="\d{10}"
+                            placeholder="10-digit phone number">
+                    </div>
+                    <div class="input-group">
+                        <label for="receiver-address">Delivery Address</label>
+                        <textarea id="receiver-address" required minlength="10"
+                            placeholder="Enter complete delivery address"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="pin-code">PIN Code</label>
+                        <input type="text" id="pin-code" required pattern="\d{6}" placeholder="6-digit PIN code">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parcel Details -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <i class="material-icons-round">inventory_2</i>
+                    Parcel Details
+                </h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" id="weight" required min="0.1" step="0.1"
+                            placeholder="Enter parcel weight">
+                    </div>
+                    <div class="input-group">
+                        <label for="contents">Contents Description</label>
+                        <textarea id="contents" required minlength="5"
+                            placeholder="Describe parcel contents"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping Options -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <i class="material-icons-round">local_shipping</i>
+                    Shipping Options
+                </h3>
+                <div class="input-group">
+                    <label>Delivery Speed</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="standard" name="delivery-speed" value="standard" required>
+                            <label for="standard">
+                                <i class="material-icons-round">schedule</i>
+                                Standard Delivery (3-5 days)
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="express" name="delivery-speed" value="express">
+                            <label for="express">
+                                <i class="material-icons-round">rocket_launch</i>
+                                Express Delivery (1-2 days)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Packaging Type</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="standard-pack" name="packaging" value="standard" required>
+                            <label for="standard-pack">
+                                <i class="material-icons-round">inventory</i>
+                                Standard Packaging
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="fragile" name="packaging" value="fragile">
+                            <label for="fragile">
+                                <i class="material-icons-round">warning</i>
+                                Fragile Handling
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="eco" name="packaging" value="eco">
+                            <label for="eco">
+                                <i class="material-icons-round">eco</i>
+                                Eco-friendly
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Services -->
+            <div class="form-section">
+                <h3 class="section-title">
+                    <i class="material-icons-round">add_circle</i>
+                    Additional Services
+                </h3>
+                <div class="checkbox-group">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="insurance" name="insurance">
+                        <label for="insurance">Parcel Insurance</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="signature" name="signature">
+                        <label for="signature">Signature Required</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="notifications" name="notifications" checked>
+                        <label for="notifications">SMS Updates</label>
+                    </div>
+                </div>
+
+                <div class="cost-display">
+                    <p>Estimated Total Cost</p>
+                    <span class="total-cost">$20.00</span>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="primary-btn">
+                    <i class="material-icons-round">check_circle</i>
+                    Proceed to Payment
+                </button>
+                <button type="reset" class="secondary-btn">
+                    <i class="material-icons-round">refresh</i>
+                    Reset Form
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get username from localStorage
+            const username = localStorage.getItem('username') || 'User';
+            document.getElementById('username').textContent = username;
+
+            // Add selected class to radio options when selected
+            const radioOptions = document.querySelectorAll('.radio-option');
+            radioOptions.forEach(option => {
+                const radio = option.querySelector('input[type="radio"]');
+                radio.addEventListener('change', function () {
+                    // Remove selected class from all options in the same group
+                    const name = this.name;
+                    document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+                        input.closest('.radio-option').classList.remove('selected');
+                    });
+                    // Add selected class to the chosen option
+                    if (this.checked) {
+                        option.classList.add('selected');
+                    }
+                });
+            });
+        });
+
+        function validateForm() {
+            // Add your form validation logic here
+            return true;
+        }
+    </script>
+</body>
+
+</html>

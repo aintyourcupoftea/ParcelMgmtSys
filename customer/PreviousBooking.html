@@ -4,58 +4,484 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Parcel Pro (User)</title>
+    <title>Previous Bookings - Parcel Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
     <link rel="stylesheet" href="../css/nav.css">
-    <link rel="stylesheet" href="../css/PreviousBooking.css">
+    <link rel="stylesheet" href="../css/booking-pages.css">
+    <style>
+        .booking-container {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 32px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .filters-section {
+            background: var(--hover-color);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            margin-bottom: 32px;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .date-range {
+            display: flex;
+            gap: 16px;
+        }
+
+        .date-range .input-group {
+            flex: 1;
+            margin: 0;
+        }
+
+        .status-filter {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .status-chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1.5px solid transparent;
+        }
+
+        .status-chip.all {
+            background: rgba(0, 122, 255, 0.1);
+            color: var(--accent-color);
+        }
+
+        .status-chip.delivered {
+            background: rgba(52, 199, 89, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-chip.in-transit {
+            background: rgba(255, 149, 0, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-chip.pending {
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--error-color);
+        }
+
+        .status-chip:hover {
+            transform: translateY(-1px);
+        }
+
+        .status-chip.selected {
+            border-color: currentColor;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .booking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color);
+        }
+
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .booking-id {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .booking-date {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+
+        .detail-group h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .detail-group p {
+            margin: 0;
+            font-size: 16px;
+            color: var(--primary-color);
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn.primary {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+        }
+
+        .action-btn.secondary {
+            background: transparent;
+            border: 1.5px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-bookings {
+            text-align: center;
+            padding: 48px;
+            color: #666;
+        }
+
+        .no-bookings i {
+            font-size: 48px;
+            color: var(--accent-color);
+            margin-bottom: 16px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 48px;
+            color: #666;
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .page-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .booking-container {
+                margin: 80px 16px 40px;
+                padding: 16px;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .date-range {
+                flex-direction: column;
+            }
+
+            .booking-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .booking-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <nav class="navbar">
         <div class="navbar-content">
-            <div class="brand" onclick="window.location.href='/customer/Dashboard.html'">
-                <h1>Parcel Pro</h1>
+            <div class="brand">
+                <a href="dashboard.html" style="text-decoration: none; color: inherit;">
+                    <h1>Parcel Pro</h1>
+                    <span class="dashboard-type">Customer Dashboard</span>
+                </a>
             </div>
             <div class="user-welcome">
-                <p>Welcome, <span id="username">John</span></p>
-                <button class="signout-btn" onclick="location.href='../SignIn.html'">
+                <div class="user-info">
+                    <p>Welcome back,</p>
+                    <span id="username" class="username">John</span>
+                </div>
+                <button class="signout-btn" onclick="location.href='../signin.html'">
                     <i class="material-icons-round">logout</i>
-                    Sign Out
+                    <span>Sign Out</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <div class="container">
-        <h2>Customer Booking History</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Booking ID</th>
-                    <th>Booking Date</th>
-                    <th>Receiver Name</th>
-                    <th>Delivered Address</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="booking-data">
-                <!-- Data will be inserted dynamically -->
-            </tbody>
-        </table>
+    <div class="booking-container">
+        <header class="page-header">
+            <h2>Booking History</h2>
+            <p class="subtitle">View and manage your previous bookings</p>
+        </header>
+
+        <div class="filters-section">
+            <div class="filters-grid">
+                <div class="input-group">
+                    <label for="search">Search Bookings</label>
+                    <div class="search-with-icon">
+                        <input type="text" id="search" placeholder="Search by Booking ID or Receiver">
+                        <button class="icon-button">
+                            <i class="material-icons-round">search</i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Date Range</label>
+                    <div class="date-range">
+                        <div class="input-group">
+                            <input type="date" id="startDate">
+                        </div>
+                        <div class="input-group">
+                            <input type="date" id="endDate">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-filter">
+                <div class="status-chip all selected" onclick="filterByStatus('all')">All Bookings</div>
+                <div class="status-chip delivered" onclick="filterByStatus('delivered')">Delivered</div>
+                <div class="status-chip in-transit" onclick="filterByStatus('in-transit')">In Transit</div>
+                <div class="status-chip pending" onclick="filterByStatus('pending')">Pending</div>
+            </div>
+        </div>
+
+        <div id="bookings-list">
+            <!-- Bookings will be populated by JavaScript -->
+            <div class="loading">
+                <i class="material-icons-round">sync</i>
+                <p>Loading your bookings...</p>
+            </div>
+        </div>
+
         <div class="pagination">
-            <button id="prev" class="nav-button" onclick="prevPage()">Previous</button>
-            <button id="next" class="nav-button" onclick="nextPage()">Next</button>
+            <button class="action-btn secondary" onclick="prevPage()" id="prevBtn" disabled>
+                <i class="material-icons-round">chevron_left</i>
+                Previous
+            </button>
+            <span class="page-info">Page <span id="currentPage">1</span></span>
+            <button class="action-btn secondary" onclick="nextPage()" id="nextBtn">
+                <i class="material-icons-round">chevron_right</i>
+                Next
+            </button>
         </div>
     </div>
 
-    <script src="/js/previousBooking.js">
-        // Get username from localStorage or session and display it
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     const username = localStorage.getItem('username') || 'User';
-        //     document.getElementById('username').textContent = username;
-        // });
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get username from localStorage
+            const username = localStorage.getItem('username') || 'User';
+            document.getElementById('username').textContent = username;
+
+            // Load initial bookings
+            loadBookings();
+
+            // Add event listeners for filters
+            document.getElementById('search').addEventListener('input', debounce(filterBookings, 300));
+            document.getElementById('startDate').addEventListener('change', filterBookings);
+            document.getElementById('endDate').addEventListener('change', filterBookings);
+        });
+
+        // Sample booking data - replace with actual API call
+        const bookings = [
+            {
+                id: 'BK001',
+                date: '2024-03-20',
+                receiver: 'Jane Smith',
+                address: '456 Oak St, Brooklyn, NY 11201',
+                amount: 45.00,
+                status: 'delivered'
+            },
+            {
+                id: 'BK002',
+                date: '2024-03-19',
+                receiver: 'Mike Johnson',
+                address: '789 Pine Ave, Queens, NY 11354',
+                amount: 35.50,
+                status: 'in-transit'
+            },
+            {
+                id: 'BK003',
+                date: '2024-03-18',
+                receiver: 'Sarah Wilson',
+                address: '321 Elm Rd, Manhattan, NY 10001',
+                amount: 55.75,
+                status: 'pending'
+            }
+        ];
+
+        function loadBookings() {
+            const container = document.getElementById('bookings-list');
+
+            // Simulate API call delay
+            setTimeout(() => {
+                if (bookings.length === 0) {
+                    container.innerHTML = `
+                        <div class="no-bookings">
+                            <i class="material-icons-round">inventory_2</i>
+                            <h3>No Bookings Found</h3>
+                            <p>You haven't made any bookings yet.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = bookings.map(booking => `
+                    <div class="booking-card">
+                        <div class="booking-header">
+                            <div class="booking-id">${booking.id}</div>
+                            <div class="booking-date">${formatDate(booking.date)}</div>
+                        </div>
+                        <div class="booking-details">
+                            <div class="detail-group">
+                                <h4>Receiver</h4>
+                                <p>${booking.receiver}</p>
+                            </div>
+                            <div class="detail-group">
+                                <h4>Delivery Address</h4>
+                                <p>${booking.address}</p>
+                            </div>
+                            <div class="detail-group">
+                                <h4>Amount</h4>
+                                <p>$${booking.amount.toFixed(2)}</p>
+                            </div>
+                            <div class="detail-group">
+                                <h4>Status</h4>
+                                <div class="status-badge ${booking.status}">${capitalizeFirstLetter(booking.status)}</div>
+                            </div>
+                        </div>
+                        <div class="booking-actions">
+                            <button class="action-btn secondary" onclick="viewDetails('${booking.id}')">
+                                <i class="material-icons-round">visibility</i>
+                                View Details
+                            </button>
+                            <button class="action-btn primary" onclick="trackParcel('${booking.id}')">
+                                <i class="material-icons-round">local_shipping</i>
+                                Track Parcel
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }, 1000);
+        }
+
+        function filterByStatus(status) {
+            const chips = document.querySelectorAll('.status-chip');
+            chips.forEach(chip => chip.classList.remove('selected'));
+            event.target.classList.add('selected');
+            filterBookings();
+        }
+
+        function filterBookings() {
+            // Implement filtering logic here
+            loadBookings(); // For now, just reload all bookings
+        }
+
+        function viewDetails(bookingId) {
+            // Implement view details functionality
+            console.log(`Viewing details for booking: ${bookingId}`);
+        }
+
+        function trackParcel(bookingId) {
+            // Implement tracking functionality
+            console.log(`Tracking parcel for booking: ${bookingId}`);
+        }
+
+        function prevPage() {
+            // Implement previous page functionality
+        }
+
+        function nextPage() {
+            // Implement next page functionality
+        }
+
+        // Utility functions
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func.apply(this, args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
     </script>
 </body>
 

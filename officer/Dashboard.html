@@ -8,66 +8,105 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
     <link rel="stylesheet" href="../css/nav.css">
-    <link rel="stylesheet" href="../css/Dashboard.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 
 <body>
     <nav class="navbar">
         <div class="navbar-content">
             <div class="brand">
-                <h1>Parcel Pro</h1>
+                <a href="dashboard.html" style="text-decoration: none; color: inherit;">
+                    <h1>Parcel Pro</h1>
+                    <span class="dashboard-type">Officer Dashboard</span>
+                </a>
             </div>
             <div class="user-welcome">
-                <p>Welcome, <span id="username">Officer</span></p>
-                <button class="signout-btn" onclick="location.href='../SignIn.html'">
+                <div class="user-info">
+                    <p>Welcome back,</p>
+                    <span id="username" class="username">Officer</span>
+                </div>
+                <button class="signout-btn" onclick="location.href='../signin.html'">
                     <i class="material-icons-round">logout</i>
-                    Sign Out
+                    <span>Sign Out</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <div class="dashboard-container">
+    <main class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Officer Control Panel</h1>
+            <p class="last-login">Last login: <span id="lastLoginTime">Today at 9:30 AM</span></p>
+        </header>
+
         <div class="features-grid">
-            <div class="feature-card" onclick="location.href='Tracking.html'">
+            <div class="feature-card" onclick="location.href='tracking.html'">
                 <div class="feature-icon">
                     <i class="material-icons-round">location_searching</i>
                 </div>
-                <h2 class="feature-title">Tracking Management</h2>
-                <p class="feature-description">Monitor and update parcel locations and tracking information</p>
+                <div class="feature-content">
+                    <h2 class="feature-title">Tracking Management</h2>
+                    <p class="feature-description">Monitor and update parcel locations and tracking information</p>
+                </div>
+                <div class="feature-action">
+                    <i class="material-icons-round">arrow_forward</i>
+                </div>
             </div>
 
             <div class="feature-card" onclick="location.href='delivery-status.html'">
                 <div class="feature-icon">
                     <i class="material-icons-round">local_shipping</i>
                 </div>
-                <h2 class="feature-title">Delivery Status</h2>
-                <p class="feature-description">Update and manage delivery statuses for all parcels</p>
+                <div class="feature-content">
+                    <h2 class="feature-title">Delivery Status</h2>
+                    <p class="feature-description">Update and manage delivery statuses for all parcels</p>
+                </div>
+                <div class="feature-action">
+                    <i class="material-icons-round">arrow_forward</i>
+                </div>
             </div>
 
-            <div class="feature-card" onclick="location.href='PickupScheduling.html'">
+            <div class="feature-card" onclick="location.href='pickup-scheduling.html'">
                 <div class="feature-icon">
                     <i class="material-icons-round">schedule</i>
                 </div>
-                <h2 class="feature-title">Pickup Scheduling</h2>
-                <p class="feature-description">Manage and coordinate pickup schedules and assignments</p>
+                <div class="feature-content">
+                    <h2 class="feature-title">Pickup Scheduling</h2>
+                    <p class="feature-description">Manage and coordinate pickup schedules and assignments</p>
+                </div>
+                <div class="feature-action">
+                    <i class="material-icons-round">arrow_forward</i>
+                </div>
             </div>
 
-            <div class="feature-card" onclick="window.location.href='PreviousBooking.html'">
+            <div class="feature-card" onclick="location.href='previous-booking.html'">
                 <div class="feature-icon">
                     <i class="material-icons-round">history</i>
                 </div>
-                <h2 class="feature-title">Previous Bookings</h2>
-                <p class="feature-description">Access and review complete booking history and records</p>
+                <div class="feature-content">
+                    <h2 class="feature-title">Previous Bookings</h2>
+                    <p class="feature-description">Access and review complete booking history and records</p>
+                </div>
+                <div class="feature-action">
+                    <i class="material-icons-round">arrow_forward</i>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        // Get username from localStorage or session and display it
         document.addEventListener('DOMContentLoaded', function () {
             const username = localStorage.getItem('officerUsername') || 'Officer';
             document.getElementById('username').textContent = username;
+
+            // Format and display last login time
+            const now = new Date();
+            const formattedTime = now.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+            document.getElementById('lastLoginTime').textContent = `Today at ${formattedTime}`;
         });
     </script>
 </body>

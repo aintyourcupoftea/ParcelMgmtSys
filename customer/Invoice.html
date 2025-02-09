@@ -1,116 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
+    <title>Invoice - Parcel Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/booking-pages.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
+        .invoice-container {
+            max-width: 800px;
+            margin: 32px auto;
             background: white;
-            padding: 20px;
-            border-radius: 5px;
-            max-width: 600px;
-            margin: 50px auto;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
         }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        .invoice-details {
-            margin-top: 20px;
-        }
-        label {
-            font-weight: bold;
-            display: block;
-            margin-top: 10px;
-        }
-        .info {
-            background: #f9f9f9;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            word-wrap: break-word;
-        }
-        .btn-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-        button {
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-            background-color: blue;
+
+        .invoice-header {
+            background: linear-gradient(135deg, var(--accent-color), #0056b3);
             color: white;
+            padding: 32px;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            position: relative;
+            overflow: hidden;
         }
-        button:hover {
-            background-color: darkblue;
+
+        .invoice-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+            transform: rotate(45deg);
         }
+
+        .invoice-header h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .invoice-header .booking-id {
+            margin-top: 8px;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .invoice-body {
+            padding: 32px;
+        }
+
+        .invoice-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title i {
+            color: var(--accent-color);
+            font-size: 24px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .info-item {
+            background: var(--hover-color);
+            padding: 16px;
+            border-radius: 12px;
+        }
+
+        .info-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .cost-summary {
+            background: var(--hover-color);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            margin-top: 32px;
+        }
+
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .cost-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .cost-total .amount {
+            color: var(--accent-color);
+            font-size: 24px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .action-btn {
+            flex: 1;
+            max-width: 200px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .print-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+        }
+
+        .download-btn {
+            background: transparent;
+            border: 1.5px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
         @media print {
-            button {
-                display: none;
+
+            .navbar,
+            .button-group {
+                display: none !important;
+            }
+
+            .container {
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+            }
+
+            .invoice-container {
+                box-shadow: none;
+            }
+
+            body {
+                background: white;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .invoice-container {
+                margin: 16px;
+            }
+
+            .invoice-header {
+                padding: 24px;
+            }
+
+            .invoice-body {
+                padding: 24px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                max-width: 100%;
             }
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h2>Invoice</h2>
-        <div class="invoice-details">
-            <label>Receiver Name:</label>
-            <div class="info" id="receiver-name">John Doe</div>
-
-            <label>Receiver Address:</label>
-            <div class="info" id="receiver-address">123 Main Street, London, UK</div>
-
-            <label>Receiver Pin:</label>
-            <div class="info" id="receiver-pin">W1A 1AA</div>
-
-            <label>Receiver Mobile:</label>
-            <div class="info" id="receiver-mobile">+44 123 456 789</div>
-
-            <label>Parcel Weight (g):</label>
-            <div class="info" id="parcel-weight">500</div>
-
-            <label>Parcel Contents Description:</label>
-            <div class="info" id="parcel-content">Electronics</div>
-
-            <label>Parcel Delivery Type:</label>
-            <div class="info" id="parcel-delivery">Express</div>
-
-            <label>Parcel Packing Preference:</label>
-            <div class="info" id="parcel-packaging">Eco-friendly Packaging</div>
-
-            <label>Parcel Pickup Time:</label>
-            <div class="info" id="parcel-pickup">2025-02-06 10:00 AM</div>
-
-            <label>Parcel Dropoff Time:</label>
-            <div class="info" id="parcel-dropoff">2025-02-07 05:00 PM</div>
-
-            <label>Parcel Service Cost (£):</label>
-            <div class="info" id="parcel-cost">20.00</div>
-
-            <label>Parcel Payment Time:</label>
-            <div class="info" id="parcel-payment-time">2025-02-05 02:15 PM</div>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="brand">
+                <a href="dashboard.html" style="text-decoration: none; color: inherit;">
+                    <h1>Parcel Pro</h1>
+                    <span class="dashboard-type">Customer Dashboard</span>
+                </a>
+            </div>
+            <div class="user-welcome">
+                <div class="user-info">
+                    <p>Welcome back,</p>
+                    <span id="username" class="username">John</span>
+                </div>
+                <button class="signout-btn" onclick="location.href='../signin.html'">
+                    <i class="material-icons-round">logout</i>
+                    <span>Sign Out</span>
+                </button>
+            </div>
         </div>
+    </nav>
 
-        <div class="btn-container">
-            <button onclick="printInvoice()">Print Invoice</button>
+    <div class="container">
+        <div class="invoice-container">
+            <div class="invoice-header">
+                <h2>Invoice</h2>
+                <div class="booking-id" id="booking-id">Booking ID: #123456789</div>
+            </div>
+
+            <div class="invoice-body">
+                <div class="invoice-section">
+                    <div class="section-title">
+                        <i class="material-icons-round">person</i>
+                        Receiver Information
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Name</div>
+                            <div class="info-value" id="receiver-name">John Doe</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Contact</div>
+                            <div class="info-value" id="receiver-mobile">+44 123 456 789</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Address</div>
+                            <div class="info-value" id="receiver-address">123 Main Street, London, UK</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">PIN Code</div>
+                            <div class="info-value" id="receiver-pin">W1A 1AA</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="invoice-section">
+                    <div class="section-title">
+                        <i class="material-icons-round">inventory_2</i>
+                        Parcel Details
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Weight</div>
+                            <div class="info-value" id="parcel-weight">500g</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Contents</div>
+                            <div class="info-value" id="parcel-content">Electronics</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Delivery Type</div>
+                            <div class="info-value" id="parcel-delivery">Express</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Packaging</div>
+                            <div class="info-value" id="parcel-packaging">Eco-friendly Packaging</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="invoice-section">
+                    <div class="section-title">
+                        <i class="material-icons-round">schedule</i>
+                        Timing Details
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Pickup Time</div>
+                            <div class="info-value" id="parcel-pickup">2025-02-06 10:00 AM</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Expected Delivery</div>
+                            <div class="info-value" id="parcel-dropoff">2025-02-07 05:00 PM</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Payment Time</div>
+                            <div class="info-value" id="parcel-payment-time">2025-02-05 02:15 PM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cost-summary">
+                    <h3>Cost Summary</h3>
+                    <div class="cost-item">
+                        <span>Base Charge</span>
+                        <span>$15.00</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Distance Charge</span>
+                        <span>$3.00</span>
+                    </div>
+                    <div class="cost-item">
+                        <span>Service Tax</span>
+                        <span>$2.00</span>
+                    </div>
+                    <div class="cost-total">
+                        <span>Total Amount</span>
+                        <span class="amount" id="parcel-cost">$20.00</span>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="action-btn print-btn" onclick="printInvoice()">
+                        <i class="material-icons-round">print</i>
+                        Print Invoice
+                    </button>
+                    <button class="action-btn download-btn" onclick="downloadInvoice()">
+                        <i class="material-icons-round">download</i>
+                        Download PDF
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get username from localStorage
+            const username = localStorage.getItem('username') || 'User';
+            document.getElementById('username').textContent = username;
+
+            // Get booking details from localStorage
+            const bookingId = localStorage.getItem('bookingId');
+            if (bookingId) {
+                document.getElementById('booking-id').textContent = `Booking ID: #${bookingId}`;
+            }
+
+            // Load bill summary from localStorage
+            const billSummary = JSON.parse(localStorage.getItem('billSummary'));
+            if (billSummary) {
+                document.getElementById('parcel-cost').textContent = `$${billSummary.total.toFixed(2)}`;
+            }
+        });
+
         function printInvoice() {
             window.print();
         }
+
+        function downloadInvoice() {
+            // Add PDF download functionality here
+            alert('PDF download will be implemented soon');
+        }
     </script>
 </body>
+
 </html>

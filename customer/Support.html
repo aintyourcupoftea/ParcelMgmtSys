@@ -5,49 +5,377 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Support - Parcel Pro</title>
-    <link rel="stylesheet" href="../css/nav.css">
-    <link rel="stylesheet" href="../css/support.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/booking-pages.css">
+    <style>
+        .support-container {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 32px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .contact-header i {
+            font-size: 24px;
+            color: var(--accent-color);
+        }
+
+        .contact-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .contact-info:hover {
+            background: var(--hover-color);
+        }
+
+        .contact-info i {
+            color: var(--accent-color);
+        }
+
+        .contact-info .label {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .contact-form {
+            margin-top: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .faq-section {
+            margin-top: 24px;
+        }
+
+        .faq-item {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 16px;
+            background: var(--hover-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .faq-answer {
+            padding: 16px;
+            display: none;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .live-chat {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--accent-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
+            transition: var(--transition);
+        }
+
+        .live-chat:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 122, 255, 0.3);
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(52, 199, 89, 0.1);
+            color: var(--success-color);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .support-container {
+                grid-template-columns: 1fr;
+                padding: 16px;
+                margin-top: 80px;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <nav class="navbar">
-        <div class="navbar-content" id="navbar">
-            <div class="brand" onclick="window.location.href='/customer/Dashboard.html'">
-                <a href="/customer/Dashboard.html" class="logo">
+        <div class="navbar-content">
+            <div class="brand">
+                <a href="dashboard.html" style="text-decoration: none; color: inherit;">
                     <h1>Parcel Pro</h1>
+                    <span class="dashboard-type">Customer Dashboard</span>
                 </a>
             </div>
             <div class="user-welcome">
-                <p>Welcome, <span id="username">John</span></p>
+                <div class="user-info">
+                    <p>Welcome back,</p>
+                    <span id="username" class="username">John</span>
+                </div>
                 <button class="signout-btn" onclick="location.href='../signin.html'">
                     <i class="material-icons-round">logout</i>
-                    Sign Out
+                    <span>Sign Out</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <main class="main-container">
-        <section class="support-content container">
-            <section class="contact-info">
-                <h2>Customer Support</h2>
-                <div class="info-item">
-                    <span class="info-label">Contact Number:</span>
-                    <span class="info-value">1800-123-4567</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Email ID:</span>
-                    <span class="info-value">support@parcelpro.com</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Address:</span>
-                    <span class="info-value">123 Parcel Pro Street, Cityville, State, Country, 12345</span>
+    <div class="support-container">
+        <div class="contact-card">
+            <div class="contact-header">
+                <i class="material-icons-round">contact_support</i>
+                <h3>Contact Information</h3>
+            </div>
+
+            <div class="contact-info">
+                <i class="material-icons-round">phone</i>
+                <div>
+                    <div class="label">Phone Support</div>
+                    <div>1800-123-4567</div>
                 </div>
             </div>
-        </section>
-    </main>
 
+            <div class="contact-info">
+                <i class="material-icons-round">email</i>
+                <div>
+                    <div class="label">Email Support</div>
+                    <div>support@parcelpro.com</div>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <i class="material-icons-round">location_on</i>
+                <div>
+                    <div class="label">Head Office</div>
+                    <div>123 Parcel Pro Street, Cityville, State, 12345</div>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <i class="material-icons-round">schedule</i>
+                <div>
+                    <div class="label">Working Hours</div>
+                    <div>Monday - Saturday: 9:00 AM - 6:00 PM</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-card">
+            <div class="contact-header">
+                <i class="material-icons-round">message</i>
+                <h3>Send us a Message</h3>
+            </div>
+
+            <form id="contact-form" class="contact-form" onsubmit="return handleSubmit(event)">
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" required placeholder="What's your query about?">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" required placeholder="Please describe your issue in detail"></textarea>
+                </div>
+
+                <button type="submit" class="primary-btn">
+                    <i class="material-icons-round">send</i>
+                    Send Message
+                </button>
+
+                <div class="success-message" id="success-message">
+                    <i class="material-icons-round">check_circle</i>
+                    Your message has been sent successfully!
+                </div>
+            </form>
+        </div>
+
+        <div class="contact-card">
+            <div class="contact-header">
+                <i class="material-icons-round">help_outline</i>
+                <h3>Frequently Asked Questions</h3>
+            </div>
+
+            <div class="faq-section">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        How can I track my parcel?
+                        <i class="material-icons-round">expand_more</i>
+                    </div>
+                    <div class="faq-answer">
+                        You can track your parcel by entering your tracking number in the tracking section of our
+                        website or mobile app. Real-time updates are available 24/7.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        What are your delivery times?
+                        <i class="material-icons-round">expand_more</i>
+                    </div>
+                    <div class="faq-answer">
+                        Standard delivery takes 2-3 business days. Express delivery is available for next-day delivery
+                        in selected areas. International shipping times vary by destination.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        How do I cancel my booking?
+                        <i class="material-icons-round">expand_more</i>
+                    </div>
+                    <div class="faq-answer">
+                        You can cancel your booking up to 2 hours before the scheduled pickup time through your
+                        dashboard. Cancellation fees may apply depending on the timing.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="live-chat" onclick="initializeChat()">
+        <i class="material-icons-round">chat</i>
+        <span>Live Chat</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const username = localStorage.getItem('username') || 'User';
+            document.getElementById('username').textContent = username;
+        });
+
+        function toggleFAQ(element) {
+            const item = element.parentElement;
+            const isActive = item.classList.contains('active');
+
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(faq => {
+                faq.classList.remove('active');
+            });
+
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+
+            // Get form values
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            // Simulate form submission
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            const originalContent = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="material-icons-round rotating">sync</i> Sending...';
+
+            // Show success message after delay
+            setTimeout(() => {
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalContent;
+                document.getElementById('success-message').style.display = 'block';
+                event.target.reset();
+
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('success-message').style.display = 'none';
+                }, 5000);
+            }, 1500);
+
+            return false;
+        }
+
+        function initializeChat() {
+            // Placeholder for chat functionality
+            alert('Live chat feature coming soon!');
+        }
+    </script>
 </body>
+
 </html>

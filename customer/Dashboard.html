@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Parcel Pro</title>
-    
+    <title>Customer Dashboard - Parcel Pro</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
     <link rel="stylesheet" href="../css/nav.css">
-    <link rel="stylesheet" href="../css/Dashboard.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 
 <body>
@@ -17,59 +17,95 @@
         <div class="navbar-content">
             <div class="brand">
                 <h1>Parcel Pro</h1>
+                <span class="dashboard-type">Customer Dashboard</span>
             </div>
             <div class="user-welcome">
-                <p>Welcome, <span id="username">John</span></p>
-                <button class="signout-btn" onclick="location.href='../SignIn.html'">
+                <div class="user-info">
+                    <p>Welcome back,</p>
+                    <span id="username" class="username">John</span>
+                </div>
+                <button class="signout-btn" onclick="location.href='../signin.html'">
                     <i class="material-icons-round">logout</i>
-                    Sign Out
+                    <span>Sign Out</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <div class="dashboard-container">
+    <main class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>My Dashboard</h1>
+            <p class="last-login">Last login: <span id="lastLoginTime">Today at 9:30 AM</span></p>
+        </header>
+
         <div class="features-grid">
-            <div class="feature-card" onclick="location.href='/customer/BookingHistory.html'">
+            <div class="feature-card" onclick="location.href='booking-service.html'">
                 <div class="feature-icon">
                     <i class="material-icons-round">local_shipping</i>
                 </div>
-                <h2 class="feature-title">Book Service</h2>
-                <p class="feature-description">Schedule a pickup or delivery for your parcels with our reliable service
-                </p>
+                <div class="feature-content">
+                    <h2 class="feature-title">Book Service</h2>
+                    <p class="feature-description">Schedule a pickup or delivery for your parcels</p>
+                </div>
+                <div class="feature-action">
+                    <i class="material-icons-round">arrow_forward</i>
+                </div>
             </div>
 
-            <div class="feature-card" onclick="location.href='/customer/TrackingCus.html'">
+            <div class="feature-card" onclick="location.href='tracking.html'">
                 <div class="feature-icon">
                     <i class="material-icons-round">location_on</i>
                 </div>
-                <h2 class="feature-title">Track Parcels</h2>
-                <p class="feature-description">Real-time tracking of your parcels with detailed status updates</p>
+                <div class="feature-content">
+                    <h2 class="feature-title">Track Parcels</h2>
+                    <p class="feature-description">Real-time tracking with status updates</p>
+                </div>
+                <div class="feature-action">
+                    <i class="material-icons-round">arrow_forward</i>
+                </div>
             </div>
 
-            <div class="feature-card" onclick="window.location.href='/customer/PreviousBooking.html'">
+            <div class="feature-card" onclick="location.href='history.html'">
                 <div class="feature-icon">
                     <i class="material-icons-round">history</i>
                 </div>
-                <h2 class="feature-title">Previous Bookings</h2>
-                <p class="feature-description">View and manage your booking history and past deliveries</p>
+                <div class="feature-content">
+                    <h2 class="feature-title">Previous Bookings</h2>
+                    <p class="feature-description">View and manage booking history</p>
+                </div>
+                <div class="feature-action">
+                    <i class="material-icons-round">arrow_forward</i>
+                </div>
             </div>
 
-            <div class="feature-card" onclick="location.href='Support.html'">
+            <div class="feature-card" onclick="location.href='support.html'">
                 <div class="feature-icon">
                     <i class="material-icons-round">support_agent</i>
                 </div>
-                <h2 class="feature-title">Contact Support</h2>
-                <p class="feature-description">Get help from our customer support team for any queries</p>
+                <div class="feature-content">
+                    <h2 class="feature-title">Contact Support</h2>
+                    <p class="feature-description">Get help from our support team</p>
+                </div>
+                <div class="feature-action">
+                    <i class="material-icons-round">arrow_forward</i>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        // Get username from localStorage or session and display it
         document.addEventListener('DOMContentLoaded', function () {
             const username = localStorage.getItem('username') || 'User';
             document.getElementById('username').textContent = username;
+
+            // Format and display last login time
+            const now = new Date();
+            const formattedTime = now.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+            document.getElementById('lastLoginTime').textContent = `Today at ${formattedTime}`;
         });
     </script>
 </body>

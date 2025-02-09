@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pickup Scheduling - Parcel Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/booking-pages.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="brand">
+                <a href="dashboard.html" style="text-decoration: none; color: inherit;">
+                    <h1>Parcel Pro</h1>
+                    <span class="dashboard-type">Officer Dashboard</span>
+                </a>
+            </div>
+            <div class="user-welcome">
+                <div class="user-info">
+                    <p>Welcome back,</p>
+                    <span id="username" class="username">Officer</span>
+                </div>
+                <button class="signout-btn" onclick="location.href='../signin.html'">
+                    <i class="material-icons-round">logout</i>
+                    <span>Sign Out</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <h2>Pickup Scheduling</h2>
+            <p class="subtitle">Schedule and manage parcel pickups</p>
+        </header>
+
+        <div class="search-section">
+            <div class="input-group">
+                <label for="booking-id">Booking ID</label>
+                <div class="search-with-icon">
+                    <input type="text" id="booking-id" maxlength="12" placeholder="Enter 12-digit Booking ID">
+                    <button class="icon-button" onclick="searchBooking()">
+                        <i class="material-icons-round">search</i>
+                    </button>
+                </div>
+                <div class="error" id="error-message">Invalid Booking ID! Please enter a 12-digit number.</div>
+            </div>
+        </div>
+
+        <div id="pickup-form" class="form-section" style="display: none;">
+            <div class="form-grid">
+                <div class="input-group">
+                    <label for="pickup-date">Pickup Date</label>
+                    <input type="date" id="pickup-date" min="" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="pickup-time">Pickup Time</label>
+                    <input type="time" id="pickup-time" required>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="primary-btn" onclick="savePickupSchedule()">Schedule Pickup</button>
+                <button class="secondary-btn" onclick="resetForm()">Reset</button>
+            </div>
+        </div>
+
+        <div id="confirmation-message" class="success-message">
+            <i class="material-icons-round success-icon">check_circle</i>
+            <h3>Pickup Scheduled Successfully!</h3>
+            <p>The pickup has been scheduled and the customer will be notified.</p>
+        </div>
+    </div>
+
+    <script src="../js/pickup-scheduling.js"></script>
+</body>
+
+</html>
