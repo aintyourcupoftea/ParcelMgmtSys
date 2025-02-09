@@ -29,174 +29,184 @@
         .filters-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .date-range {
-            display: flex;
             gap: 16px;
+            align-items: end;
         }
 
-        .date-range .input-group {
-            flex: 1;
-            margin: 0;
-        }
-
-        .status-filter {
+        .filter-group {
             display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 20px;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .status-chip {
-            padding: 8px 16px;
+        .filter-group label {
+            font-size: 14px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .filter-group input {
+            padding: 12px;
+            border: 1.5px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .filter-group input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+        }
+
+        .bookings-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            margin-top: 16px;
+        }
+
+        .bookings-table th {
+            text-align: left;
+            padding: 16px;
+            color: var(--primary-color);
+            font-weight: 500;
+            border-bottom: 2px solid var(--hover-color);
+        }
+
+        .bookings-table td {
+            padding: 16px;
+            background: white;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .bookings-table tr td:first-child {
+            border-left: 1px solid rgba(0, 0, 0, 0.05);
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+
+        .bookings-table tr td:last-child {
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .bookings-table tr:hover td {
+            background: var(--hover-color);
+            border-color: var(--accent-color);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
             border-radius: 20px;
             font-size: 14px;
             font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            border: 1.5px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .status-chip.all {
-            background: rgba(0, 122, 255, 0.1);
-            color: var(--accent-color);
-        }
-
-        .status-chip.delivered {
+        .status-badge.delivered {
             background: rgba(52, 199, 89, 0.1);
             color: var(--success-color);
         }
 
-        .status-chip.in-transit {
+        .status-badge.in-transit {
             background: rgba(255, 149, 0, 0.1);
             color: var(--warning-color);
         }
 
-        .status-chip.pending {
+        .status-badge.pending {
             background: rgba(255, 59, 48, 0.1);
             color: var(--error-color);
         }
 
-        .status-chip:hover {
-            transform: translateY(-1px);
-        }
-
-        .status-chip.selected {
-            border-color: currentColor;
-        }
-
-        .booking-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 24px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-            transition: var(--transition);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .booking-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            border-color: var(--accent-color);
-        }
-
-        .booking-header {
+        .action-buttons {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .booking-id {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .booking-date {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .booking-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 24px;
-            margin-bottom: 20px;
-        }
-
-        .detail-group h4 {
-            margin: 0 0 4px 0;
-            font-size: 14px;
-            color: #666;
-        }
-
-        .detail-group p {
-            margin: 0;
-            font-size: 16px;
-            color: var(--primary-color);
-        }
-
-        .booking-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-        }
-
-        .action-btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
             gap: 8px;
         }
 
-        .action-btn.primary {
+        .icon-button {
+            padding: 8px;
+            border: none;
+            background: none;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .icon-button:hover {
+            background: var(--hover-color);
+            color: var(--accent-color);
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+            padding: 16px;
+            background: var(--hover-color);
+            border-radius: var(--border-radius);
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            border: none;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination button:not(:disabled):hover {
             background: var(--accent-color);
             color: white;
-            border: none;
         }
 
-        .action-btn.secondary {
-            background: transparent;
-            border: 1.5px solid var(--accent-color);
-            color: var(--accent-color);
+        .page-info {
+            font-size: 14px;
+            color: var(--primary-color);
         }
 
-        .action-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .no-bookings {
+        .loading-state,
+        .no-results,
+        .error-state {
             text-align: center;
             padding: 48px;
             color: #666;
         }
 
-        .no-bookings i {
+        .loading-state i,
+        .no-results i,
+        .error-state i {
             font-size: 48px;
-            color: var(--accent-color);
             margin-bottom: 16px;
+            display: block;
         }
 
-        .loading {
-            text-align: center;
-            padding: 48px;
-            color: #666;
-        }
-
-        .loading i {
+        .loading-state i {
+            color: var(--accent-color);
             animation: spin 1s linear infinite;
+        }
+
+        .no-results i {
+            color: var(--primary-color);
+        }
+
+        .error-state i {
+            color: var(--error-color);
         }
 
         @keyframes spin {
@@ -205,17 +215,96 @@
             }
         }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 16px;
-            margin-top: 32px;
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
         }
 
-        .page-info {
+        .modal-content {
+            position: relative;
+            background: white;
+            margin: 100px auto;
+            padding: 32px;
+            width: 90%;
+            max-width: 600px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .close-button {
+            position: absolute;
+            right: 16px;
+            top: 16px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
             color: #666;
-            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .close-button:hover {
+            color: var(--primary-color);
+        }
+
+        .booking-details {
+            margin-top: 24px;
+        }
+
+        .booking-details p {
+            margin: 12px 0;
+            padding: 12px;
+            background: var(--hover-color);
+            border-radius: 8px;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 16px 24px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .toast i {
+            font-size: 20px;
+        }
+
+        .toast.success i {
+            color: var(--success-color);
+        }
+
+        .toast.info i {
+            color: var(--accent-color);
         }
 
         @media (max-width: 768px) {
@@ -224,27 +313,23 @@
                 padding: 16px;
             }
 
-            .filters-grid {
-                grid-template-columns: 1fr;
+            .filters-section {
+                padding: 16px;
             }
 
-            .date-range {
+            .bookings-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .pagination {
                 flex-direction: column;
+                gap: 16px;
+                align-items: stretch;
+                text-align: center;
             }
 
-            .booking-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-
-            .booking-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .action-btn {
-                width: 100%;
+            .pagination button {
                 justify-content: center;
             }
         }
@@ -275,214 +360,63 @@
 
     <div class="booking-container">
         <header class="page-header">
-            <h2>Booking History</h2>
-            <p class="subtitle">View and manage your previous bookings</p>
+            <h2>Previous Bookings</h2>
+            <p class="subtitle">View and manage your booking history</p>
         </header>
 
         <div class="filters-section">
             <div class="filters-grid">
-                <div class="input-group">
-                    <label for="search">Search Bookings</label>
-                    <div class="search-with-icon">
-                        <input type="text" id="search" placeholder="Search by Booking ID or Receiver">
-                        <button class="icon-button">
-                            <i class="material-icons-round">search</i>
-                        </button>
-                    </div>
+                <div class="filter-group">
+                    <label for="searchCustomerId">Search</label>
+                    <input type="text" id="searchCustomerId" placeholder="Search by ID or receiver name">
                 </div>
-
-                <div class="input-group">
-                    <label>Date Range</label>
-                    <div class="date-range">
-                        <div class="input-group">
-                            <input type="date" id="startDate">
-                        </div>
-                        <div class="input-group">
-                            <input type="date" id="endDate">
-                        </div>
-                    </div>
+                <div class="filter-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate">
                 </div>
-            </div>
-
-            <div class="status-filter">
-                <div class="status-chip all selected" onclick="filterByStatus('all')">All Bookings</div>
-                <div class="status-chip delivered" onclick="filterByStatus('delivered')">Delivered</div>
-                <div class="status-chip in-transit" onclick="filterByStatus('in-transit')">In Transit</div>
-                <div class="status-chip pending" onclick="filterByStatus('pending')">Pending</div>
+                <div class="filter-group">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate">
+                </div>
             </div>
         </div>
 
-        <div id="bookings-list">
-            <!-- Bookings will be populated by JavaScript -->
-            <div class="loading">
-                <i class="material-icons-round">sync</i>
-                <p>Loading your bookings...</p>
-            </div>
+        <div class="table-container">
+            <table class="bookings-table">
+                <thead>
+                    <tr>
+                        <th>Customer ID</th>
+                        <th>Booking ID</th>
+                        <th>Date</th>
+                        <th>Receiver</th>
+                        <th>Address</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="booking-data">
+                    <!-- Booking data will be populated here -->
+                </tbody>
+            </table>
         </div>
 
         <div class="pagination">
-            <button class="action-btn secondary" onclick="prevPage()" id="prevBtn" disabled>
+            <button onclick="prevPage()">
                 <i class="material-icons-round">chevron_left</i>
                 Previous
             </button>
-            <span class="page-info">Page <span id="currentPage">1</span></span>
-            <button class="action-btn secondary" onclick="nextPage()" id="nextBtn">
-                <i class="material-icons-round">chevron_right</i>
+            <div class="page-info">
+                Page <span id="currentPage">1</span>
+            </div>
+            <button onclick="nextPage()">
                 Next
+                <i class="material-icons-round">chevron_right</i>
             </button>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Get username from localStorage
-            const username = localStorage.getItem('username') || 'User';
-            document.getElementById('username').textContent = username;
-
-            // Load initial bookings
-            loadBookings();
-
-            // Add event listeners for filters
-            document.getElementById('search').addEventListener('input', debounce(filterBookings, 300));
-            document.getElementById('startDate').addEventListener('change', filterBookings);
-            document.getElementById('endDate').addEventListener('change', filterBookings);
-        });
-
-        // Sample booking data - replace with actual API call
-        const bookings = [
-            {
-                id: 'BK001',
-                date: '2024-03-20',
-                receiver: 'Jane Smith',
-                address: '456 Oak St, Brooklyn, NY 11201',
-                amount: 45.00,
-                status: 'delivered'
-            },
-            {
-                id: 'BK002',
-                date: '2024-03-19',
-                receiver: 'Mike Johnson',
-                address: '789 Pine Ave, Queens, NY 11354',
-                amount: 35.50,
-                status: 'in-transit'
-            },
-            {
-                id: 'BK003',
-                date: '2024-03-18',
-                receiver: 'Sarah Wilson',
-                address: '321 Elm Rd, Manhattan, NY 10001',
-                amount: 55.75,
-                status: 'pending'
-            }
-        ];
-
-        function loadBookings() {
-            const container = document.getElementById('bookings-list');
-
-            // Simulate API call delay
-            setTimeout(() => {
-                if (bookings.length === 0) {
-                    container.innerHTML = `
-                        <div class="no-bookings">
-                            <i class="material-icons-round">inventory_2</i>
-                            <h3>No Bookings Found</h3>
-                            <p>You haven't made any bookings yet.</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                container.innerHTML = bookings.map(booking => `
-                    <div class="booking-card">
-                        <div class="booking-header">
-                            <div class="booking-id">${booking.id}</div>
-                            <div class="booking-date">${formatDate(booking.date)}</div>
-                        </div>
-                        <div class="booking-details">
-                            <div class="detail-group">
-                                <h4>Receiver</h4>
-                                <p>${booking.receiver}</p>
-                            </div>
-                            <div class="detail-group">
-                                <h4>Delivery Address</h4>
-                                <p>${booking.address}</p>
-                            </div>
-                            <div class="detail-group">
-                                <h4>Amount</h4>
-                                <p>$${booking.amount.toFixed(2)}</p>
-                            </div>
-                            <div class="detail-group">
-                                <h4>Status</h4>
-                                <div class="status-badge ${booking.status}">${capitalizeFirstLetter(booking.status)}</div>
-                            </div>
-                        </div>
-                        <div class="booking-actions">
-                            <button class="action-btn secondary" onclick="viewDetails('${booking.id}')">
-                                <i class="material-icons-round">visibility</i>
-                                View Details
-                            </button>
-                            <button class="action-btn primary" onclick="trackParcel('${booking.id}')">
-                                <i class="material-icons-round">local_shipping</i>
-                                Track Parcel
-                            </button>
-                        </div>
-                    </div>
-                `).join('');
-            }, 1000);
-        }
-
-        function filterByStatus(status) {
-            const chips = document.querySelectorAll('.status-chip');
-            chips.forEach(chip => chip.classList.remove('selected'));
-            event.target.classList.add('selected');
-            filterBookings();
-        }
-
-        function filterBookings() {
-            // Implement filtering logic here
-            loadBookings(); // For now, just reload all bookings
-        }
-
-        function viewDetails(bookingId) {
-            // Implement view details functionality
-            console.log(`Viewing details for booking: ${bookingId}`);
-        }
-
-        function trackParcel(bookingId) {
-            // Implement tracking functionality
-            console.log(`Tracking parcel for booking: ${bookingId}`);
-        }
-
-        function prevPage() {
-            // Implement previous page functionality
-        }
-
-        function nextPage() {
-            // Implement next page functionality
-        }
-
-        // Utility functions
-        function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString('en-US', options);
-        }
-
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func.apply(this, args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-    </script>
+    <script src="../js/previous-booking.js"></script>
 </body>
 
 </html>

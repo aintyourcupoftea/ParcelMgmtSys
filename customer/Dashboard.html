@@ -13,24 +13,7 @@
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="navbar-content">
-            <div class="brand">
-                <h1>Parcel Pro</h1>
-                <span class="dashboard-type">Customer Dashboard</span>
-            </div>
-            <div class="user-welcome">
-                <div class="user-info">
-                    <p>Welcome back,</p>
-                    <span id="username" class="username">John</span>
-                </div>
-                <button class="signout-btn" onclick="location.href='../signin.html'">
-                    <i class="material-icons-round">logout</i>
-                    <span>Sign Out</span>
-                </button>
-            </div>
-        </div>
-    </nav>
+    <div id="navbar-container"></div>
 
     <main class="dashboard-container">
         <header class="dashboard-header">
@@ -52,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="feature-card" onclick="location.href='tracking.html'">
+            <div class="feature-card" onclick="location.href='trackingcus.html'">
                 <div class="feature-icon">
                     <i class="material-icons-round">location_on</i>
                 </div>
@@ -65,7 +48,7 @@
                 </div>
             </div>
 
-            <div class="feature-card" onclick="location.href='history.html'">
+            <div class="feature-card" onclick="location.href='previousbooking.html'">
                 <div class="feature-icon">
                     <i class="material-icons-round">history</i>
                 </div>
@@ -92,7 +75,7 @@
             </div>
         </div>
     </main>
-
+    <script src="../js/navbar.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const username = localStorage.getItem('username') || 'User';
@@ -107,7 +90,14 @@
             });
             document.getElementById('lastLoginTime').textContent = `Today at ${formattedTime}`;
         });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            Navbar.loadNavbar('customer');
+        });
     </script>
+
+
+
 </body>
 
 </html>

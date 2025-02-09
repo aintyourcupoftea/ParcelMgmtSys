@@ -1,127 +1,771 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package Tracking - Parcel Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
     <link rel="stylesheet" href="../css/nav.css">
-    <link rel="stylesheet" href="../css/tracking_cus.css">
+    <link rel="stylesheet" href="../css/booking-pages.css">
+    <style>
+        .tracking-container {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 32px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .search-section {
+            background: var(--hover-color);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            margin-bottom: 32px;
+        }
+
+        .search-with-icon {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-with-icon input {
+            width: 100%;
+            padding: 16px 48px 16px 16px;
+            border: 1.5px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            font-size: 15px;
+            transition: var(--transition);
+        }
+
+        .search-with-icon input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+        }
+
+        .search-with-icon .icon-button {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .tracking-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .tracking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color);
+        }
+
+        .tracking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .tracking-id {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .tracking-date {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .tracking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+
+        .detail-group h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .detail-group p {
+            margin: 0;
+            font-size: 16px;
+            color: var(--primary-color);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-badge.delivered {
+            background: rgba(52, 199, 89, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-badge.in-transit {
+            background: rgba(255, 149, 0, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-badge.pending {
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--error-color);
+        }
+
+        .tracking-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn.primary {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+        }
+
+        .action-btn.secondary {
+            background: transparent;
+            border: 1.5px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 48px;
+            color: #666;
+        }
+
+        .no-results i {
+            font-size: 48px;
+            color: var(--accent-color);
+            margin-bottom: 16px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 48px;
+            color: #666;
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tracking-container {
+                margin: 80px 16px 40px;
+                padding: 16px;
+            }
+
+            .tracking-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .tracking-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 32px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 8px;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--primary-color);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--accent-color);
+            opacity: 0.2;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent-color);
+        }
+
+        .timeline-item.current::before {
+            background: var(--success-color);
+            box-shadow: 0 0 0 4px rgba(52, 199, 89, 0.2);
+        }
+
+        .timeline-time {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .timeline-status {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+        }
+
+        .timeline-location {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .details-group {
+            background: var(--hover-color);
+            padding: 16px;
+            border-radius: 12px;
+        }
+
+        .details-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .details-value {
+            font-size: 16px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+    </style>
 </head>
 
-
-
-
 <body>
-
     <nav class="navbar">
         <div class="navbar-content">
-            <div class="brand" onclick="window.location.href='/customer/Dashboard.html'">
-                <h1>Parcel Pro</h1>
+            <div class="brand">
+                <a href="dashboard.html" style="text-decoration: none; color: inherit;">
+                    <h1>Parcel Pro</h1>
+                    <span class="dashboard-type">Customer Dashboard</span>
+                </a>
             </div>
             <div class="user-welcome">
-                <p>Welcome, <span id="username">User</span></p>
-                <button class="signout-btn" onclick="location.href='../SignIn.html'">
+                <div class="user-info">
+                    <p>Welcome back,</p>
+                    <span id="username" class="username">John</span>
+                </div>
+                <button class="signout-btn" onclick="location.href='../signin.html'">
                     <i class="material-icons-round">logout</i>
-                    Sign Out
+                    <span>Sign Out</span>
                 </button>
             </div>
         </div>
     </nav>
 
+    <div class="tracking-container">
+        <header class="page-header">
+            <h2>Package Tracking</h2>
+            <p class="subtitle">Track your parcels in real-time</p>
+        </header>
 
-<div class="container">
-<h1>Package Tracking Zone</h1>
-<input type="text" id="search" placeholder="Enter Booking Id &#x1F50E;&#xFE0E;"/>
+        <div class="search-section">
+            <div class="search-with-icon">
+                <input type="text" id="search" placeholder="Enter Booking ID to track your parcel">
+                <button class="icon-button" onclick="searchPackage()">
+                    <i class="material-icons-round">search</i>
+                </button>
+            </div>
+        </div>
 
-<table>
+        <div id="tracking-results">
+            <!-- Results will be populated by JavaScript -->
+            <div class="loading">
+                <i class="material-icons-round">sync</i>
+                <p>Loading tracking information...</p>
+            </div>
+        </div>
+    </div>
 
-  <thead>
-    <tr>
-       
-       <th>Booking ID</th>
-        <th>Status</th>
-        <th>Last Updated</th>
-     </tr>
-  </thead>
+    <!-- Details Modal -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Package Details</h3>
+                <button class="close-modal" onclick="closeModal('detailsModal')">
+                    <i class="material-icons-round">close</i>
+                </button>
+            </div>
+            <div id="packageDetails">
+                <!-- Package details will be populated here -->
+            </div>
+        </div>
+    </div>
 
+    <!-- Updates Modal -->
+    <div id="updatesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Tracking Updates</h3>
+                <button class="close-modal" onclick="closeModal('updatesModal')">
+                    <i class="material-icons-round">close</i>
+                </button>
+            </div>
+            <div id="trackingUpdates">
+                <!-- Tracking updates will be populated here -->
+            </div>
+        </div>
+    </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get username from localStorage
+            const username = localStorage.getItem('username') || 'User';
+            document.getElementById('username').textContent = username;
 
-   <tbody id="packageList">
+            // Add search on enter key
+            document.getElementById('search').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    searchPackage();
+                }
+            });
 
-    <tr>
-        <td>300056234567</td>
-        <td>Shipped</td>
-        <td>23-04-2025</td>
-   </tr>
+            // Load initial tracking data
+            loadTrackingData();
+        });
 
-    <tr>
-        <td>222222444444</td>
-        <td>In Transit</td>
-        <td>26-06-2024</td>
-    </tr>
+        // Sample tracking data - replace with actual API call
+        const trackingData = [
+            {
+                id: 'TRK001',
+                bookingId: '300056234567',
+                customerId: 'C001',
+                status: 'in-transit',
+                lastUpdated: '2024-03-20T10:30:00',
+                location: 'London Distribution Center',
+                estimatedDelivery: '2024-03-22',
+                updates: [
+                    { time: '2024-03-20T10:30:00', status: 'Package in transit', location: 'London' },
+                    { time: '2024-03-20T08:15:00', status: 'Package picked up', location: 'Manchester' }
+                ]
+            },
+            {
+                id: 'TRK002',
+                bookingId: '222222444444',
+                customerId: 'C002',
+                status: 'delivered',
+                lastUpdated: '2024-03-19T15:45:00',
+                location: 'Birmingham',
+                estimatedDelivery: '2024-03-19',
+                updates: [
+                    { time: '2024-03-19T15:45:00', status: 'Package delivered', location: 'Birmingham' },
+                    { time: '2024-03-19T10:20:00', status: 'Out for delivery', location: 'Birmingham' }
+                ]
+            },
+            {
+                id: 'TRK003',
+                bookingId: '111111222222',
+                customerId: 'C001',
+                status: 'delivered',
+                lastUpdated: '2024-03-18T14:30:00',
+                location: 'Manchester',
+                estimatedDelivery: '2024-03-18',
+                updates: [
+                    { time: '2024-03-18T14:30:00', status: 'Package delivered', location: 'Manchester' },
+                    { time: '2024-03-18T09:15:00', status: 'Out for delivery', location: 'Manchester' }
+                ]
+            },
+            {
+                id: 'TRK004',
+                bookingId: '115678765432',
+                customerId: 'C003',
+                status: 'pending',
+                lastUpdated: '2024-03-21T11:00:00',
+                location: 'Leeds Distribution Center',
+                estimatedDelivery: '2024-03-23',
+                updates: [
+                    { time: '2024-03-21T11:00:00', status: 'Package received', location: 'Leeds' }
+                ]
+            }
+        ];
 
-     <tr>
-        <td>111111222222</td>
-        <td>Delivered</td>
-        <td>06-01-2023</td>
-    </tr>
+        let filteredData = [...trackingData];
 
-      <tr>
-        <td>115678765432</td>
-        <td>Shipped</td>
-        <td>23-04-2022</td>
-   </tr>
+        function loadTrackingData(data = filteredData) {
+            const container = document.getElementById('tracking-results');
 
-    <tr>
-        <td>245678765432</td>
-        <td>In Transit</td>
-        <td>23-06-2024</td>
-    </tr>
+            // Simulate API call delay
+            setTimeout(() => {
+                if (data.length === 0) {
+                    container.innerHTML = `
+                        <div class="no-results">
+                            <i class="material-icons-round">inventory_2</i>
+                            <h3>No Packages Found</h3>
+                            <p>Enter a booking ID to track your package</p>
+                        </div>
+                    `;
+                    return;
+                }
 
-     <tr>
-        <td>345678765432</td>
-        <td>Delivered</td>
-        <td>16-01-2023</td>
-    </tr>
-      <tr>
-        <td>123000765432</td>
-        <td>Shipped</td>
-        <td>23-04-2025</td>
-   </tr>
+                container.innerHTML = data.map(package => `
+                    <div class="tracking-card">
+                        <div class="tracking-header">
+                            <div class="tracking-id">Booking ID: ${package.bookingId}</div>
+                            <div class="tracking-date">Last Updated: ${formatDate(package.lastUpdated)}</div>
+                        </div>
+                        <div class="tracking-details">
+                            <div class="detail-group">
+                                <h4>Current Status</h4>
+                                <div class="status-badge ${package.status}">
+                                    <i class="material-icons-round">${getStatusIcon(package.status)}</i>
+                                    ${capitalizeFirstLetter(package.status)}
+                                </div>
+                            </div>
+                            <div class="detail-group">
+                                <h4>Current Location</h4>
+                                <p>${package.location}</p>
+                            </div>
+                            <div class="detail-group">
+                                <h4>Estimated Delivery</h4>
+                                <p>${formatDate(package.estimatedDelivery)}</p>
+                            </div>
+                        </div>
+                        <div class="tracking-actions">
+                            <button class="action-btn secondary" onclick="viewDetails('${package.bookingId}')">
+                                <i class="material-icons-round">visibility</i>
+                                View Details
+                            </button>
+                            <button class="action-btn primary" onclick="viewUpdates('${package.bookingId}')">
+                                <i class="material-icons-round">timeline</i>
+                                Track Updates
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }, 300); // Reduced delay for better responsiveness
+        }
 
-    <tr>
-        <td>12347854234</td>
-        <td>In Transit</td>
-        <td>26-06-2024</td>
-    </tr>
+        function searchPackage() {
+            const searchInput = document.getElementById('search');
+            const searchTerm = searchInput.value.trim();
 
-     <tr>
-        <td>987654456789</td>
-        <td>Delivered</td>
-        <td>06-01-2023</td>
-    </tr>
+            if (!searchTerm) {
+                alert('Please enter a booking ID');
+                return;
+            }
 
-      <tr>
-        <td>300012345678</td>
-        <td>Shipped</td>
-        <td>23-04-2022</td>
-   </tr>
+            const container = document.getElementById('tracking-results');
+            container.innerHTML = `
+                <div class="loading">
+                    <i class="material-icons-round">sync</i>
+                    <p>Searching for package...</p>
+                </div>
+            `;
 
-    <tr>
-        <td>234567765432</td>
-        <td>In Transit</td>
-        <td>23-06-2024</td>
-    </tr>
+            // Search with a small delay for loading state
+            setTimeout(() => {
+                filteredData = trackingData.filter(package => {
+                    const searchLower = searchTerm.toLowerCase();
+                    return (
+                        package.bookingId.toLowerCase().includes(searchLower) ||
+                        package.customerId.toLowerCase().includes(searchLower) ||
+                        package.location.toLowerCase().includes(searchLower)
+                    );
+                });
 
-     <tr>
-        <td>123456123456</td>
-        <td>Delivered</td>
-        <td>16-01-2023</td>
-    </tr>
-   </tbody>
+                if (filteredData.length === 0) {
+                    container.innerHTML = `
+                        <div class="no-results">
+                            <i class="material-icons-round">search_off</i>
+                            <h3>No Results Found</h3>
+                            <p>No package found with the provided booking ID</p>
+                        </div>
+                    `;
+                    return;
+                }
 
-</table>
-</div>
+                loadTrackingData(filteredData);
+            }, 300);
+        }
+
+        // Add real-time search functionality
+        document.getElementById('search').addEventListener('input', debounce(function () {
+            const searchTerm = this.value.trim();
+            if (searchTerm === '') {
+                filteredData = [...trackingData];
+                loadTrackingData();
+                return;
+            }
+            searchPackage();
+        }, 300));
+
+        // Debounce function to limit search frequency
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func.apply(this, args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function viewDetails(bookingId) {
+            const package = trackingData.find(p => p.bookingId === bookingId);
+            if (!package) return;
+
+            const detailsContainer = document.getElementById('packageDetails');
+            detailsContainer.innerHTML = `
+                <div class="details-grid">
+                    <div class="details-group">
+                        <div class="details-label">Booking ID</div>
+                        <div class="details-value">${package.bookingId}</div>
+                    </div>
+                    <div class="details-group">
+                        <div class="details-label">Status</div>
+                        <div class="details-value">
+                            <div class="status-badge ${package.status}">
+                                <i class="material-icons-round">${getStatusIcon(package.status)}</i>
+                                ${capitalizeFirstLetter(package.status)}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-group">
+                        <div class="details-label">Current Location</div>
+                        <div class="details-value">${package.location}</div>
+                    </div>
+                    <div class="details-group">
+                        <div class="details-label">Last Updated</div>
+                        <div class="details-value">${formatDate(package.lastUpdated)}</div>
+                    </div>
+                    <div class="details-group">
+                        <div class="details-label">Estimated Delivery</div>
+                        <div class="details-value">${formatDate(package.estimatedDelivery)}</div>
+                    </div>
+                </div>
+            `;
+
+            openModal('detailsModal');
+        }
+
+        function viewUpdates(bookingId) {
+            const package = trackingData.find(p => p.bookingId === bookingId);
+            if (!package) return;
+
+            const updatesContainer = document.getElementById('trackingUpdates');
+            updatesContainer.innerHTML = `
+                <div class="timeline">
+                    ${package.updates.map((update, index) => `
+                        <div class="timeline-item ${index === 0 ? 'current' : ''}">
+                            <div class="timeline-time">${formatDate(update.time)}</div>
+                            <div class="timeline-status">${update.status}</div>
+                            <div class="timeline-location">${update.location}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            openModal('updatesModal');
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            document.body.style.overflow = 'hidden';
+            modal.classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            document.body.style.overflow = '';
+            modal.classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal.id);
+                }
+            });
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    if (modal.classList.contains('show')) {
+                        closeModal(modal.id);
+                    }
+                });
+            }
+        });
+
+        // Utility functions
+        function formatDate(dateString) {
+            const options = {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            return new Date(dateString).toLocaleString('en-US', options);
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function getStatusIcon(status) {
+            switch (status) {
+                case 'delivered':
+                    return 'check_circle';
+                case 'in-transit':
+                    return 'local_shipping';
+                case 'pending':
+                    return 'schedule';
+                default:
+                    return 'info';
+            }
+        }
+    </script>
 </body>
+
 </html>

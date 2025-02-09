@@ -4,11 +4,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Package Tracking - Parcel Pro</title>
+    <title>Package Tracking Management - Parcel Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
     <link rel="stylesheet" href="../css/nav.css">
-    <link rel="stylesheet" href="../css/tracking.css">
+    <link rel="stylesheet" href="../css/booking-pages.css">
+    <style>
+        .tracking-container {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 32px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .filters-section {
+            background: var(--hover-color);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            margin-bottom: 32px;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .status-filters {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .status-chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1.5px solid transparent;
+        }
+
+        .status-chip i {
+            font-size: 18px;
+        }
+
+        .status-chip.all {
+            background: rgba(0, 122, 255, 0.1);
+            color: var(--accent-color);
+        }
+
+        .status-chip.delivered {
+            background: rgba(52, 199, 89, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-chip.in-transit {
+            background: rgba(255, 149, 0, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-chip.pending {
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--error-color);
+        }
+
+        .status-chip:hover {
+            transform: translateY(-1px);
+        }
+
+        .status-chip.selected {
+            border-color: currentColor;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .package-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color);
+        }
+
+        .package-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .package-id {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .package-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+
+        .detail-group h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .detail-group p {
+            margin: 0;
+            font-size: 16px;
+            color: var(--primary-color);
+        }
+
+        .package-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn.primary {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+        }
+
+        .action-btn.secondary {
+            background: transparent;
+            border: 1.5px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background: white;
+            margin: 100px auto;
+            padding: 32px;
+            width: 90%;
+            max-width: 600px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .close-button {
+            position: absolute;
+            right: 16px;
+            top: 16px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            transition: var(--transition);
+        }
+
+        .close-button:hover {
+            color: var(--primary-color);
+        }
+
+        .update-form {
+            margin-top: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .form-group select:focus,
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+        }
+
+        .timeline {
+            margin-top: 24px;
+            padding: 20px;
+            background: var(--hover-color);
+            border-radius: var(--border-radius);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 28px;
+            padding-bottom: 24px;
+            border-left: 2px solid var(--accent-color);
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-color);
+        }
+
+        .timeline-time {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .timeline-content {
+            font-size: 16px;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .tracking-container {
+                margin: 80px 16px 40px;
+                padding: 16px;
+            }
+
+            .filters-section {
+                padding: 16px;
+            }
+
+            .package-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -33,32 +326,79 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="tracking-container">
         <header class="page-header">
-            <h1>Package Tracking</h1>
-            <p class="subtitle">Track and manage package deliveries</p>
+            <h2>Package Tracking Management</h2>
+            <p class="subtitle">Monitor and update package statuses</p>
         </header>
 
-        <div class="search-container">
-            <input type="text" id="search" placeholder="Search by Booking ID or Customer ID">
-            <i class="material-icons-round search-icon">search</i>
+        <div class="filters-section">
+            <div class="filters-grid">
+                <div class="input-group">
+                    <label for="search">Search Packages</label>
+                    <div class="search-with-icon">
+                        <input type="text" id="search" placeholder="Search by Booking ID, Customer ID or Location">
+                        <i class="material-icons-round search-icon">search</i>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="dateFilter">Date Range</label>
+                    <input type="date" id="dateFilter">
+                </div>
+            </div>
+
+            <div class="status-filters">
+                <div class="status-chip all selected" onclick="filterByStatus('all')">
+                    <i class="material-icons-round">all_inbox</i>
+                    All Packages
+                </div>
+                <div class="status-chip delivered" onclick="filterByStatus('delivered')">
+                    <i class="material-icons-round">check_circle</i>
+                    Delivered
+                </div>
+                <div class="status-chip in-transit" onclick="filterByStatus('in-transit')">
+                    <i class="material-icons-round">local_shipping</i>
+                    In Transit
+                </div>
+                <div class="status-chip pending" onclick="filterByStatus('pending')">
+                    <i class="material-icons-round">schedule</i>
+                    Pending
+                </div>
+            </div>
         </div>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Booking ID</th>
-                        <th>Customer ID</th>
-                        <th>Status</th>
-                        <th>Last Updated</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="packageList">
-                    <!-- Data will be populated by JavaScript -->
-                </tbody>
-            </table>
+        <div id="packages-list">
+            <!-- Packages will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Update Status Modal -->
+    <div id="updateModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3>Update Package Status</h3>
+            <form id="updateForm" class="update-form">
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" required>
+                        <option value="pending">Pending</option>
+                        <option value="in-transit">In Transit</option>
+                        <option value="delivered">Delivered</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="location">Current Location</label>
+                    <input type="text" id="location" required>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" rows="3"></textarea>
+                </div>
+                <button type="submit" class="action-btn primary">
+                    <i class="material-icons-round">save</i>
+                    Update Status
+                </button>
+            </form>
         </div>
     </div>
 

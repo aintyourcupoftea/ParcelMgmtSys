@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Status - Parcel Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/booking-pages.css">
+    <style>
+        .search-section {
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin-top: 32px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            display: none;
+        }
+
+        .package-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .package-id {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-badge.picked-up {
+            background: rgba(255, 149, 0, 0.1);
+            color: #FF9500;
+        }
+
+        .status-badge.in-transit {
+            background: rgba(0, 122, 255, 0.1);
+            color: var(--accent-color);
+        }
+
+        .status-badge.delivered {
+            background: rgba(52, 199, 89, 0.1);
+            color: #34C759;
+        }
+
+        .status-badge.returned {
+            background: rgba(255, 59, 48, 0.1);
+            color: #FF3B30;
+        }
+
+        .package-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .detail-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            color: var(--primary-color);
+        }
+
+        .status-update-section {
+            background: var(--hover-color);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            margin-top: 32px;
+        }
+
+        .status-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .status-option {
+            padding: 16px;
+            border-radius: 12px;
+            border: 1.5px solid rgba(0, 0, 0, 0.1);
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .status-option:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .status-option.selected {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .status-option i {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .location-input {
+            margin-bottom: 24px;
+        }
+
+        .notes-input {
+            margin-bottom: 24px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 16px;
+            border: 1.5px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            font-size: 15px;
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        .timeline {
+            margin-top: 32px;
+            padding-left: 24px;
+            border-left: 2px solid var(--hover-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 24px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--accent-color);
+        }
+
+        .timeline-time {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .timeline-content {
+            font-size: 14px;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .status-options {
+                grid-template-columns: 1fr;
+            }
+
+            .package-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar container -->
+    <div id="navbar-container"></div>
+
+    <div class="container">
+        <header class="page-header">
+            <h2>Update Delivery Status</h2>
+            <p class="subtitle">Search for a package and update its delivery status</p>
+        </header>
+
+        <div class="search-section">
+            <div class="input-group">
+                <label for="bookingId">Booking ID</label>
+                <div class="search-with-icon">
+                    <input type="text" id="bookingId" placeholder="Enter 12-digit Booking ID" maxlength="12">
+                    <button class="icon-button" onclick="searchPackage()">
+                        <i class="material-icons-round">search</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="packageCard" class="package-card">
+            <div class="package-header">
+                <div class="package-id" id="displayBookingId"></div>
+                <span class="status-badge" id="currentStatus"></span>
+            </div>
+
+            <div class="package-details">
+                <div class="detail-group">
+                    <div class="detail-label">Customer ID</div>
+                    <div class="detail-value" id="customerId"></div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Receiver</div>
+                    <div class="detail-value" id="receiver"></div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Contact</div>
+                    <div class="detail-value" id="contact"></div>
+                </div>
+                <div class="detail-group">
+                    <div class="detail-label">Delivery Address</div>
+                    <div class="detail-value" id="address"></div>
+                </div>
+            </div>
+
+            <div class="status-update-section">
+                <h3>Update Status</h3>
+                <div class="status-options">
+                    <div class="status-option" onclick="selectStatus('picked-up')">
+                        <i class="material-icons-round">local_shipping</i>
+                        Picked Up
+                    </div>
+                    <div class="status-option" onclick="selectStatus('in-transit')">
+                        <i class="material-icons-round">route</i>
+                        In Transit
+                    </div>
+                    <div class="status-option" onclick="selectStatus('delivered')">
+                        <i class="material-icons-round">check_circle</i>
+                        Delivered
+                    </div>
+                    <div class="status-option" onclick="selectStatus('returned')">
+                        <i class="material-icons-round">assignment_return</i>
+                        Returned
+                    </div>
+                </div>
+
+                <div class="location-input">
+                    <label for="location">Current Location</label>
+                    <input type="text" id="location" placeholder="Enter current location">
+                </div>
+
+                <div class="notes-input">
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" placeholder="Enter any additional notes or comments"></textarea>
+                </div>
+
+                <button class="primary-btn" onclick="updateStatus()">
+                    <i class="material-icons-round">update</i>
+                    Update Status
+                </button>
+            </div>
+
+            <div class="timeline" id="statusTimeline">
+                <!-- Status updates will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add navbar.js before other scripts -->
+    <script src="../js/navbar.js"></script>
+    <script>
+        // Initialize navbar when document is ready
+        document.addEventListener('DOMContentLoaded', function () {
+            Navbar.loadNavbar('officer');
+        });
+
+        // Sample package database
+        const packageDatabase = [
+            {
+                bookingId: '202403200001',
+                customerId: 'CUST001',
+                receiver: 'John Smith',
+                contact: '+44 123 456 7890',
+                address: '123 Oxford Street, London, W1D 1DF',
+                status: 'in-transit',
+                updates: [
+                    {
+                        time: '2024-03-20 10:30 AM',
+                        status: 'Package in transit',
+                        location: 'London Distribution Center'
+                    },
+                    {
+                        time: '2024-03-20 08:15 AM',
+                        status: 'Package picked up',
+                        location: 'Manchester Warehouse'
+                    }
+                ]
+            },
+            {
+                bookingId: '202403190002',
+                customerId: 'CUST002',
+                receiver: 'Emma Wilson',
+                contact: '+44 987 654 3210',
+                address: '45 High Street, Manchester, M4 1BE',
+                status: 'delivered',
+                updates: [
+                    {
+                        time: '2024-03-19 15:45 PM',
+                        status: 'Package delivered',
+                        location: 'Manchester'
+                    },
+                    {
+                        time: '2024-03-19 12:30 PM',
+                        status: 'Out for delivery',
+                        location: 'Manchester Hub'
+                    },
+                    {
+                        time: '2024-03-19 08:00 AM',
+                        status: 'Package in transit',
+                        location: 'Birmingham Sorting Center'
+                    }
+                ]
+            },
+            {
+                bookingId: '202403180003',
+                customerId: 'CUST003',
+                receiver: 'David Brown',
+                contact: '+44 765 432 1098',
+                address: '78 Queen Street, Edinburgh, EH2 1NE',
+                status: 'picked-up',
+                updates: [
+                    {
+                        time: '2024-03-18 09:30 AM',
+                        status: 'Package picked up',
+                        location: 'Edinburgh Depot'
+                    }
+                ]
+            },
+            {
+                bookingId: '202403170004',
+                customerId: 'CUST004',
+                receiver: 'Sarah Johnson',
+                contact: '+44 654 321 0987',
+                address: '92 Castle Road, Cardiff, CF10 1BS',
+                status: 'returned',
+                updates: [
+                    {
+                        time: '2024-03-17 16:45 PM',
+                        status: 'Package returned to sender',
+                        location: 'Cardiff Returns Center'
+                    },
+                    {
+                        time: '2024-03-17 14:30 PM',
+                        status: 'Delivery attempted - No one at home',
+                        location: 'Cardiff'
+                    },
+                    {
+                        time: '2024-03-17 09:15 AM',
+                        status: 'Out for delivery',
+                        location: 'Cardiff Hub'
+                    }
+                ]
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const username = localStorage.getItem('officerUsername') || 'Officer';
+            document.getElementById('username').textContent = username;
+
+            // Add example booking IDs to the page
+            const subtitle = document.querySelector('.subtitle');
+            subtitle.innerHTML += '<br><small style="color: #666;">Try these example Booking IDs: 202403200001, 202403190002, 202403180003, 202403170004</small>';
+        });
+
+        function searchPackage() {
+            const bookingId = document.getElementById('bookingId').value.trim();
+
+            if (bookingId.length !== 12) {
+                showToast('Please enter a valid 12-digit Booking ID', 'error');
+                return;
+            }
+
+            // Show loading state
+            const searchButton = document.querySelector('.icon-button');
+            const originalContent = searchButton.innerHTML;
+            searchButton.innerHTML = '<i class="material-icons-round rotating">refresh</i>';
+            searchButton.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                // Reset search button
+                searchButton.innerHTML = originalContent;
+                searchButton.disabled = false;
+
+                // Find package in database
+                const pkg = packageDatabase.find(p => p.bookingId === bookingId);
+
+                if (!pkg) {
+                    showToast('Package not found', 'error');
+                    document.getElementById('packageCard').style.display = 'none';
+                    return;
+                }
+
+                // Show package card with data
+                document.getElementById('packageCard').style.display = 'block';
+                document.getElementById('displayBookingId').textContent = pkg.bookingId;
+                document.getElementById('customerId').textContent = pkg.customerId;
+                document.getElementById('receiver').textContent = pkg.receiver;
+                document.getElementById('contact').textContent = pkg.contact;
+                document.getElementById('address').textContent = pkg.address;
+
+                // Set current status
+                updateStatusBadge(pkg.status);
+
+                // Show timeline
+                updateTimeline(pkg.updates);
+
+                showToast('Package found successfully', 'success');
+            }, 800);
+        }
+
+        function selectStatus(status) {
+            document.querySelectorAll('.status-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelector(`.status-option[onclick*="${status}"]`).classList.add('selected');
+        }
+
+        function updateStatus() {
+            const selectedStatus = document.querySelector('.status-option.selected');
+            if (!selectedStatus) {
+                showToast('Please select a status', 'error');
+                return;
+            }
+
+            const location = document.getElementById('location').value.trim();
+            if (!location) {
+                showToast('Please enter the current location', 'error');
+                return;
+            }
+
+            // Show loading state
+            const updateButton = document.querySelector('.primary-btn');
+            const originalContent = updateButton.innerHTML;
+            updateButton.innerHTML = '<i class="material-icons-round rotating">refresh</i> Updating...';
+            updateButton.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                const status = selectedStatus.textContent.trim().toLowerCase();
+                updateStatusBadge(status);
+
+                // Add new status to timeline
+                const newStatus = {
+                    time: new Date().toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }),
+                    status: `Status updated to ${status}`,
+                    location: location
+                };
+
+                const timeline = document.getElementById('statusTimeline');
+                timeline.insertAdjacentHTML('afterbegin', createTimelineItem(newStatus));
+
+                // Reset form
+                selectedStatus.classList.remove('selected');
+                document.getElementById('location').value = '';
+                document.getElementById('notes').value = '';
+
+                // Reset button
+                updateButton.innerHTML = originalContent;
+                updateButton.disabled = false;
+
+                showToast('Status updated successfully', 'success');
+            }, 1500);
+        }
+
+        function updateStatusBadge(status) {
+            const statusBadge = document.getElementById('currentStatus');
+            statusBadge.className = `status-badge ${status}`;
+            statusBadge.innerHTML = `
+                <i class="material-icons-round">${getStatusIcon(status)}</i>
+                ${capitalizeFirstLetter(status)}
+            `;
+        }
+
+        function updateTimeline(updates) {
+            const timeline = document.getElementById('statusTimeline');
+            timeline.innerHTML = updates.map(createTimelineItem).join('');
+        }
+
+        function createTimelineItem(update) {
+            return `
+                <div class="timeline-item">
+                    <div class="timeline-time">${update.time}</div>
+                    <div class="timeline-content">
+                        ${update.status} at ${update.location}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getStatusIcon(status) {
+            switch (status) {
+                case 'picked-up':
+                    return 'local_shipping';
+                case 'in-transit':
+                    return 'route';
+                case 'delivered':
+                    return 'check_circle';
+                case 'returned':
+                    return 'assignment_return';
+                default:
+                    return 'info';
+            }
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function showToast(message, type = 'info') {
+            let toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="material-icons-round">${type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info'}</i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }, 100);
+        }
+    </script>
+</body>
+
+</html>

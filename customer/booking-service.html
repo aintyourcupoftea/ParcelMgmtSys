@@ -128,26 +128,7 @@
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="navbar-content">
-            <div class="brand">
-                <a href="dashboard.html" style="text-decoration: none; color: inherit;">
-                    <h1>Parcel Pro</h1>
-                    <span class="dashboard-type">Customer Dashboard</span>
-                </a>
-            </div>
-            <div class="user-welcome">
-                <div class="user-info">
-                    <p>Welcome back,</p>
-                    <span id="username" class="username">John</span>
-                </div>
-                <button class="signout-btn" onclick="location.href='../signin.html'">
-                    <i class="material-icons-round">logout</i>
-                    <span>Sign Out</span>
-                </button>
-            </div>
-        </div>
-    </nav>
+    <div id="navbar-container"></div>
 
     <div class="container">
         <header class="page-header">
@@ -320,7 +301,7 @@
             </div>
         </form>
     </div>
-
+    <script src="../js/navbar.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Get username from localStorage
@@ -343,6 +324,10 @@
                     }
                 });
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            Navbar.loadNavbar('customer');
         });
 
         function validateForm() {

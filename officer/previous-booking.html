@@ -10,89 +10,221 @@
     <link rel="stylesheet" href="../css/nav.css">
     <link rel="stylesheet" href="../css/booking-pages.css">
     <style>
-        .container {
-            max-width: 1200px;
-            background: white;
-            box-shadow: 0 20px 20px rgba(0, 0, 0, 0.1);
-            flex: 1;
-            border-radius: 10px;
-            text-align: center;
-            margin: 110px auto 40px;
-            padding: 10px 32px;
+        .filters-section {
+            background: var(--hover-color);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            margin-bottom: 32px;
         }
 
-        .search-bar {
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .status-filters {
             display: flex;
-            justify-content: center;
+            gap: 12px;
             flex-wrap: wrap;
-            gap: 10px;
-            margin: 20px 0;
+            margin-top: 16px;
         }
 
-        .search-bar input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .search-bar button {
-            background-color: #6a5acd;
-            color: white;
-            border: none;
-            padding: 10px 15px;
+        .status-chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            border: 1.5px solid rgba(0, 0, 0, 0.1);
         }
 
-        .search-bar button:hover {
-            background-color: #7d6be6;
+        .status-chip:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-1px);
         }
 
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            min-width: 700px;
-        }
-
-        th,
-        td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        th {
-            background-color: #6a5acd;
+        .status-chip.selected {
+            background: var(--accent-color);
             color: white;
+            border-color: var(--accent-color);
+        }
+
+        .status-chip i {
+            font-size: 18px;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .booking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-color);
+        }
+
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .booking-id {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .detail-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            color: var(--primary-color);
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            max-width: 600px;
+            width: 90%;
+            margin: 80px auto;
+            padding: 32px;
+            position: relative;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-button {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            transition: var(--transition);
+        }
+
+        .close-button:hover {
+            color: var(--primary-color);
+            transform: rotate(90deg);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast i {
+            color: var(--success-color);
         }
 
         .pagination {
-            margin-top: 20px;
             display: flex;
+            align-items: center;
             justify-content: center;
+            gap: 16px;
+            margin-top: 32px;
         }
 
-        .nav-button {
-            background-color: #6a5acd;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            margin: 5px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+        .page-info {
+            font-size: 14px;
+            color: #666;
         }
 
-        .nav-button:hover {
-            background-color: #7d6be6;
+        @media (max-width: 768px) {
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-details {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -125,42 +257,47 @@
             <p class="subtitle">View and manage all customer bookings</p>
         </header>
 
-        <div class="search-section">
-            <div class="search-bar">
+        <div class="filters-section">
+            <div class="filters-grid">
                 <div class="input-group">
-                    <input type="text" id="searchCustomerId" placeholder="Customer ID">
+                    <label for="searchCustomerId">Search</label>
+                    <div class="search-with-icon">
+                        <input type="text" id="searchCustomerId" placeholder="Search by ID, name, or address">
+                        <i class="material-icons-round">search</i>
+                    </div>
                 </div>
                 <div class="input-group">
-                    <input type="date" id="startDate" placeholder="Start Date">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate">
                 </div>
                 <div class="input-group">
-                    <input type="date" id="endDate" placeholder="End Date">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate">
                 </div>
-                <button class="primary-btn" onclick="searchBookings()">
-                    <i class="material-icons-round">search</i>
-                    Search
-                </button>
+            </div>
+
+            <div class="status-filters">
+                <div class="status-chip selected" onclick="filterByStatus('all')">
+                    <i class="material-icons-round">all_inbox</i>
+                    All
+                </div>
+                <div class="status-chip" onclick="filterByStatus('delivered')">
+                    <i class="material-icons-round">check_circle</i>
+                    Delivered
+                </div>
+                <div class="status-chip" onclick="filterByStatus('in-transit')">
+                    <i class="material-icons-round">local_shipping</i>
+                    In Transit
+                </div>
+                <div class="status-chip" onclick="filterByStatus('pending')">
+                    <i class="material-icons-round">schedule</i>
+                    Pending
+                </div>
             </div>
         </div>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Customer ID</th>
-                        <th>Booking ID</th>
-                        <th>Booking Date</th>
-                        <th>Receiver Name</th>
-                        <th>Delivery Address</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="booking-data">
-                    <!-- Data will be populated by JavaScript -->
-                </tbody>
-            </table>
+        <div id="booking-data">
+            <!-- Bookings will be populated here by JavaScript -->
         </div>
 
         <div class="pagination">
